@@ -17,8 +17,8 @@ Flat category tree (카드 스타일, 최대 8단계)
         {%- assign segs = segs | push: cats[j] -%}
       {%- endfor -%}
       {%- assign label = segs | join: "||" -%}
-      {%- assign slug  = segs | map: "slugify" | join: "/" -%}
-      {%- assign key   = slug -%}
+      {%- assign slug_path = segs | join: "/" -%}     
+      {%- assign key   = slug_path -%}
       {%- assign probe = "|" | append: key | append: "|" -%}
       {%- unless guard contains probe -%}
         {%- assign entry = key | append: "::" | append: label -%}
@@ -36,8 +36,8 @@ Flat category tree (카드 스타일, 최대 8단계)
     <ul class="list-group list-group-flush">
       {%- for entry in items -%}
         {%- assign parts = entry | split: "::" -%}
-        {%- assign slug_path = parts[0] -%}                 {# 예: "대학교/전산" #}
-        {%- assign anchor_id = slug_path | replace: "/","-" -%}  {# id에 / 대신 - #}
+        {%- assign slug_path = parts[0] -%}
+        {%- assign anchor_id = slug_path | slugify: 'raw' | replace: "/","-" -%}
         {%- assign label = parts[1] -%}
         {%- assign segs  = label | split: "||" -%}
         {%- assign depth = segs | size -%}
@@ -65,11 +65,12 @@ Flat category tree (카드 스타일, 최대 8단계)
   </div>
 </div>
 
-{# --- 아래: 실제 섹션들 렌더링 (앵커 타겟) --- #}
+{%- comment -%} 아래: 실제 섹션들 렌더링 (앵커 타겟) {%- endcomment -%}
+
 {%- for entry in items -%}
   {%- assign parts = entry | split: "::" -%}
   {%- assign slug_path = parts[0] -%}
-  {%- assign anchor_id = slug_path | replace: "/","-" -%}
+  {%- assign anchor_id = slug_path | slugify: 'raw' | replace: "/","-" -%}
   {%- assign label = parts[1] -%}
   {%- assign segs  = label | split: "||" -%}
   {%- assign depth = segs | size -%}
