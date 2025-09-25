@@ -219,5 +219,13 @@ exclude:
   - "*.config.js"
   - "package*.json"
 
+plugins:
+  - jekyll-archives
+
 jekyll-archives:
-  enabled: []
+  enabled: [tags]        # ← tags만
+  layouts:
+    tag: tag             # _layouts/tag.html 사용
+  permalinks:
+    tag: /tags/:name/    # /tags/<slug>/
+
