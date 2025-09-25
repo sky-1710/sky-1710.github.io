@@ -1,0 +1,13 @@
+---
+layout: page
+---
+
+<h1>#{{ page.tag }}</h1>
+<ul>
+  {% for post in site.tags[page.tag] %}
+    <li>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+    </li>
+  {% endfor %}
+</ul>
