@@ -41,7 +41,12 @@ layout: page
         <span class="ms-2">
           <i class="far fa-folder{% if sub_categories_size > 0 %}-open{% endif %} fa-fw"></i>
 
-          {% capture _category_url %}/categories/{{ category_name | slugify | url_encode }}/{% endcapture %}
+          {%- assign segs = "" | split: "" -%}
+          {%- assign segs = segs | push: category_name -%}
+          {%- assign slug_path = segs | map: 'slugify' | join: '/' -%}
+          {%- assign _category_url = '/categories/' | append: slug_path | append: '/' -%}
+
+          
           <a href="{{ _category_url | relative_url }}" class="mx-2">{{ category_name }}</a>
 
           <!-- content count -->
@@ -106,10 +111,25 @@ layout: page
               <li class="list-group-item">
                 <i class="far fa-folder fa-fw"></i>
 
-                {% capture _sub_ctg_url %}/categories/{{ sub_category | slugify | url_encode }}/{% endcapture %}
+                {%- assign segs = "" | split: "" -%}
+                {%- assign segs = segs | push: category_name | push: sub_category -%}
+                {%- assign slug_path = segs | map: 'slugify' | join: '/' -%}
+                {%- assign _sub_ctg_url = '/categories/' | append: slug_path | append: '/' -%}
+
+
+
                 <a href="{{ _sub_ctg_url | relative_url }}" class="mx-2">{{ sub_category }}</a>
 
                 {% assign posts_size = site.categories[sub_category] | size %}
+
+                {%- assign posts_size = 0 -%}
+                {%- for p in posts_of_category -%}
+                 {%- if p.categories.size > 1 and p.categories[1] == sub_category -%}
+                   {%- assign posts_size = posts_size | plus: 1 -%}
+                 {%- endif -%}
+                {%- endfor -%}
+
+
                 <span class="text-muted small font-weight-light">
                   {{ posts_size }}
 
