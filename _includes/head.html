@@ -122,5 +122,7 @@
     {% endfor %}
   {% endif %}
 
+  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
   {% include metadata-hook.html %}
 </head>

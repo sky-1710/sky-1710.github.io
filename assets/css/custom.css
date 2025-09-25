@@ -1,36 +1,41 @@
-/* --- Collapsible category tree (Chirpy-like) --- */
-.cat-tree { list-style: none; margin: 0; padding: 0; }
-.cat-tree.root > .cat-branch { margin-top: .6rem; }
+/* reset & marker 제거 */
+.cat-cards, .cat-cards ul { list-style: none; margin: 0; padding: 0; }
+.cat-cards summary { list-style: none; }
+.cat-cards summary::-webkit-details-marker { display: none; } /* Chrome/Safari */
+.cat-cards summary::marker { content: ""; }                   /* Firefox */
 
-.cat-panel {
+/* 카드 */
+.cat-card { margin-top: .75rem; }
+.card {
   border: 1px solid var(--border-color, #e5e5e5);
   border-radius: .6rem;
-  overflow: hidden;
   background: #fff;
+  overflow: hidden;
 }
-.cat-branch + .cat-branch { margin-top: .6rem; }
-
-.cat-header {
+.card-header {
   display: flex; align-items: center; gap: .6rem;
-  padding: .6rem .9rem;
+  padding: .7rem .9rem;
   background: var(--card-bg, #f7f7f7);
-  cursor: pointer; list-style: none;
+  cursor: pointer;
   font-weight: 600;
 }
-.cat-name { margin-right: .3rem; }
-.cat-stats { margin-left: auto; opacity: .65; font-weight: 500; }
-.cat-caret { margin-left: .4rem; opacity: .65; transition: transform .15s ease; }
+.card-title { text-decoration: none; }
+.card-stats { margin-left: auto; opacity: .65; font-weight: 500; }
+.caret { margin-left: .4rem; opacity: .65; transition: transform .15s ease; }
+.card[open] .caret { transform: rotate(180deg); }
 
-/* open 상태에서 caret 회전 */
-.cat-panel[open] .cat-caret { transform: rotate(180deg); }
+/* 하위 카테고리 행 */
+.rows .row + .row { border-top: 1px solid var(--border-color, #e5e5e5); }
+.row-line {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .6rem .9rem;
+}
+.row-name { text-decoration: none; font-weight: 600; }
+.row-count { margin-left: auto; opacity: .65; }
+.row-caret { margin-left: .4rem; opacity: .5; }
 
-.cat-children { padding: .2rem .2rem .6rem .2rem; }
-.cat-children > .cat-tree { padding: 0 .2rem; }
-
-.cat-posts { list-style: none; margin: 0; padding: .4rem .9rem .8rem 1.4rem; }
+/* 글 목록 */
+.cat-posts { padding: .2rem .9rem .8rem 1.4rem; }
 .cat-post { margin: .25rem 0; }
 .cat-post a { text-decoration: none; }
 .cat-post .post-meta { margin-left: .35rem; opacity: .65; font-size: .95em; }
-
-/* 2~3레벨 들여쓰기 느낌 */
-.cat-tree:not(.root) .cat-panel { border-radius: .4rem; }

@@ -1,52 +1,74 @@
 {% comment %}
-  Chirpy-style collapsible category tree (N-depth)
-  - 상단 요약: "이름  X categories , Y posts"
-  - 중간은 계속 폴더처럼 재귀
-  - 리프(더 깊이 없음)면 글 목록 노출
+  Chirpy-like accordion category tree (multi-depth)
 {% endcomment %}
 
-{% assign level  = include.level  | default: 0 %}
-{% assign posts  = include.posts  | default: site.posts %}
+{% assign level = include.level | default: 0 %}
+{% assign posts = include.posts | default: site.posts %}
 
 {% assign groups = posts | group_by_exp: 'p', 'p.categories[level]' %}
 
-<ul class="cat-tree {% if level == 0 %}root{% endif %}">
+<ul class="cat-cards {% if level == 0 %}root{% endif %}">
   {% for g in groups %}
     {% if g.name and g.name != '' %}
+
       {% assign next_level = level | plus: 1 %}
-      {% assign deeper_items = g.items | where_exp: 'p', 'p.categories.size > next_level' %}
       {% assign subgroups = g.items | group_by_exp: 'p', 'p.categories[next_level]' %}
-      {% assign subcat_count = 0 %}
+
+      {%- assign subcat_count = 0 -%}
       {% for sg in subgroups %}
         {% if sg.name and sg.name != '' %}
           {% assign subcat_count = subcat_count | plus: 1 %}
         {% endif %}
       {% endfor %}
+
       {% assign total_posts = g.items | size %}
 
-      <li class="cat-branch">
-        <details class="cat-panel" {% if level == 0 %}open{% endif %}>
-          <summary class="cat-header">
-            <i class="fas fa-folder-open" aria-hidden="true"></i>
-            <span class="cat-name">{{ g.name }}</span>
-            <span class="cat-stats">
-              {% if subcat_count > 0 %}
-                {{ subcat_count }} categories{% if total_posts > 0 %}, {% endif %}
-              {% endif %}
-              {% if total_posts > 0 %}
-                {{ total_posts }} {% if total_posts == 1 %}post{% else %}posts{% endif %}
-              {% endif %}
+      <li class="cat-card">
+        <details class="card" {% if level == 0 %}open{% endif %}>
+          <summary class="card-header">
+            <i class="fas fa-folder-open"></i>
+            <a class="card-title" href="{{ '/categories/' | append: g.name | slugify | append: '/' | relative_url }}">{{ g.name }}</a>
+            <span class="card-stats">
+              {% if subcat_count > 0 %}{{ subcat_count }} categories{% if total_posts > 0 %}, {% endif %}{% endif %}
+              {% if total_posts > 0 %}{{ total_posts }} {% if total_posts == 1 %}post{% else %}posts{% endif %}{% endif %}
             </span>
-            <i class="fas fa-chevron-down cat-caret" aria-hidden="true"></i>
+            <i class="fas fa-chevron-down caret"></i>
           </summary>
 
-          {% if deeper_items.size > 0 %}
-            {%- comment -%} 더 깊은 단계: 재귀 {%- endcomment -%}
-            <div class="cat-children">
-              {% include category_tree.html posts=g.items level=next_level %}
-            </div>
+          {% if subcat_count > 0 %}
+            <ul class="rows">
+              {% for sg in subgroups %}
+                {% if sg.name and sg.name != '' %}
+                  {% assign next_next = next_level | plus: 1 %}
+                  {% assign has_deeper = sg.items | where_exp: 'p', 'p.categories.size > next_next' | size %}
+                  {% assign posts_in_sg = sg.items | size %}
+
+                  <li class="row">
+                    {% if has_deeper > 0 %}
+                      {%- comment -%} 하위가 더 있으면 다시 카드로 재귀 {%- endcomment -%}
+                      {% include category_tree.html posts=sg.items level=next_level %}
+                    {% else %}
+                      {%- comment -%} 리프면: 행 + 바로 글 목록 {%- endcomment -%}
+                      <div class="row-line">
+                        <i class="far fa-folder"></i>
+                        <a class="row-name" href="{{ '/categories/' | append: sg.name | slugify | append: '/' | relative_url }}">{{ sg.name }}</a>
+                        <span class="row-count">{{ posts_in_sg }} {% if posts_in_sg == 1 %}post{% else %}posts{% endif %}</span>
+                        <i class="fas fa-angle-right row-caret"></i>
+                      </div>
+                      <ul class="cat-posts">
+                        {% for p in sg.items %}
+                          <li class="cat-post">
+                            <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+                            <span class="post-meta">{{ p.date | date: "%b %-d, %Y" }}</span>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
           {% else %}
-            {%- comment -%} 리프: 글 목록 {%- endcomment -%}
             <ul class="cat-posts">
               {% for p in g.items %}
                 <li class="cat-post">
