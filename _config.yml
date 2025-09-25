@@ -219,11 +219,5 @@ exclude:
   - "*.config.js"
   - "package*.json"
 
-#jekyll-archives:
-#  enabled: [categories, tags]
-#  layouts:
-#    category: category
-#    tag: tag
-#  permalinks:
-#    category: /categories/:name/
-#    tag: /tags/:name/
+jekyll-archives:
+  enabled: []
