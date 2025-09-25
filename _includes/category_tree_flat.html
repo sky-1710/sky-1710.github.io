@@ -1,5 +1,5 @@
 {%- comment -%}
-  Flat category tree (no recursion)
+  Category tree with collapsible post lists
 {%- endcomment -%}
 
 {%- assign items = "" | split: "" -%}
@@ -36,23 +36,38 @@
   {%- assign label = parts[1] -%}
   {%- assign segs  = label | split: "||" -%}
   {%- assign depth = segs | size -%}
-  {%- assign url   = "/categories/" | append: slug | append: "/" -%}
 
   {%- assign cnt = 0 -%}
+  {%- assign matched_posts = "" | split: "" -%}
   {%- for p in site.posts -%}
     {%- assign cats = p.categories | default: "" -%}
-    {%- if cats and cats != empty and cats.size >= depth -%}
+    {%- if cats and cats.size >= depth -%}
       {%- assign ok = true -%}
       {%- for k in (0..depth-1) -%}
         {%- if cats[k] != segs[k] -%}{%- assign ok = false -%}{%- break -%}{%- endif -%}
       {%- endfor -%}
-      {%- if ok -%}{%- assign cnt = cnt | plus: 1 -%}{%- endif -%}
+      {%- if ok -%}
+        {%- assign matched_posts = matched_posts | push: p -%}
+        {%- assign cnt = cnt | plus: 1 -%}
+      {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
 
   <li style="padding-left: {{ depth | minus: 1 | times: 16 }}px">
-    <a href="{{ url | relative_url }}">{{ segs | last }}</a>
-    <span class="cat-stats" style="opacity:.65;margin-left:.5rem">{{ cnt }}</span>
+    <details class="cat-node">
+      <summary>
+        {{ segs | last }}
+        <span class="cat-stats" style="opacity:.65;margin-left:.5rem">{{ cnt }}</span>
+      </summary>
+      <ul class="cat-posts">
+        {%- for p in matched_posts -%}
+          <li>
+            <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+            <span class="post-meta">{{ p.date | date: "%Y-%m-%d" }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </details>
   </li>
 {%- endfor -%}
 </ul>
