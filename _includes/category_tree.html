@@ -27,7 +27,7 @@
         <details class="card" {% if level == 0 %}open{% endif %}>
           <summary class="card-header">
             <i class="fas fa-folder-open" aria-hidden="true"></i>
-            <a class="card-title" href="{{ '/categories/' | append: g.name | slugify | append: '/' | relative_url }}">{{ g.name }}</a>
+            <a class="card-title" href="{{ '/categories/' | append: (g.name | slugify) | append: '/' | relative_url }}">{{ g.name }}</a>
             <span class="card-stats">
               {% if subcat_count > 0 %}{{ subcat_count }} categories{% if total_posts > 0 %}, {% endif %}{% endif %}
               {% if total_posts > 0 %}{{ total_posts }} {% if total_posts == 1 %}post{% else %}posts{% endif %}{% endif %}
@@ -51,7 +51,7 @@
                     {% else %}
                       <div class="row-line">
                         <i class="far fa-folder" aria-hidden="true"></i>
-                        <a class="row-name" href="{{ '/categories/' | append: sg.name | slugify | append: '/' | relative_url }}">{{ sg.name }}</a>
+                        <a class="card-title" href="{{ '/categories/' | append: (g.name | slugify) | append: '/' | relative_url }}">{{ g.name }}</a>
                         <span class="row-count">{{ posts_in_sg }} {% if posts_in_sg == 1 %}post{% else %}posts{% endif %}</span>
                         <i class="fas fa-angle-right row-caret" aria-hidden="true"></i>
                       </div>
