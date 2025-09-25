@@ -1,0 +1,62 @@
+{%- comment -%}
+  Flat category tree (no recursion)
+  - site.posts 에서 모든 부분경로(prefix)를 수집해 한 번에 렌더링
+  - 각 항목의 링크: /categories/<slugged path>/
+  - 들여쓰기: depth 기반 padding
+{%- endcomment -%}
+
+{%- assign items = "" | split: "" -%}
+{%- assign guard = "|" -%}
+
+{%- for p in site.posts -%}
+  {%- assign cats = p.categories | default: "" -%}
+  {%- if cats != "" and cats != empty -%}
+    {%- assign n = cats | size -%}
+    {%- for i in (1..n) -%}
+      {%- assign segs = "" | split: "" -%}
+      {%- for j in (0..i-1) -%}
+        {%- assign segs = segs | push: cats[j] -%}
+      {%- endfor -%}
+      {%- assign label = segs | join: "||" -%}
+      {%- assign slug  = segs | map: "slugify" | join: "/" -%}
+      {%- assign key   = slug -%}
+      {%- assign probe = "|" | append: key | append: "|" -%}
+      {%- unless guard contains probe -%}
+        {%- assign entry = key | append: "::" | append: label -%}
+        {%- assign items = items | push: entry -%}
+        {%- assign guard = guard | append: key | append: "|" -%}
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign items = items | sort -%}
+
+<ul class="cat-tree">
+{%- for entry in items -%}
+  {%- assign parts = entry | split: "::" -%}
+  {%- assign slug  = parts[0] -%}
+  {%- assign label = parts[1] -%}
+  {%- assign segs  = label | split: "||" -%}
+  {%- assign depth = segs | size -%}
+  {%- assign url   = "/categories/" | append: slug | append: "/" -%}
+
+  {%- comment -%} 이 prefix에 속한 글 개수 {%- endcomment -%}
+  {%- assign cnt = 0 -%}
+  {%- for p in site.posts -%}
+    {%- assign cats = p.categories | default: "" -%}
+    {%- if cats and cats != empty and cats.size >= depth -%}
+      {%- assign ok = true -%}
+      {%- for k in (0..depth-1) -%}
+        {%- if cats[k] != segs[k] -%}{%- assign ok = false -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+      {%- if ok -%}{%- assign cnt = cnt | plus: 1 -%}{%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  <li style="padding-left: {{ depth | minus: 1 | times: 16 }}px">
+    <a href="{{ url | relative_url }}">{{ segs | last }}</a>
+    <span class="cat-stats" style="opacity:.65;margin-left:.5rem">{{ cnt }}</span>
+  </li>
+{%- endfor -%}
+</ul>
