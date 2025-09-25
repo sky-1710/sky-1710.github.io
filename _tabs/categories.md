@@ -1,5 +1,8 @@
 ---
-layout: categories
+layout: page
+title: Categories
 icon: fas fa-stream
 order: 1
 ---
+
+{% include category_tree.html posts=site.posts level=0 %}

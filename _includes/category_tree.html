@@ -1,0 +1,36 @@
+{% comment %}
+  Recursive category tree renderer for Chirpy.
+  사용법: {% include category_tree.html posts=site.posts level=0 %}
+{% endcomment %}
+
+{% assign level = include.level | default: 0 %}
+{% assign posts = include.posts | default: site.posts %}
+
+{%- comment -%} 현재 단계 이름으로 그룹핑 {%- endcomment -%}
+{% assign groups = posts | group_by_exp: 'p', 'p.categories[level]' %}
+
+<ul>
+  {% for g in groups %}
+    {% if g.name and g.name != '' %}
+      <li>
+        <span>{{ g.name }}</span>
+
+        {%- assign next_level = level | plus: 1 -%}
+        {%- assign deeper = g.items | where_exp: 'p', 'p.categories.size > next_level' -%}
+
+        {% if deeper.size > 0 %}
+          {% include category_tree.html posts=g.items level=next_level %}
+        {% else %}
+          <ul>
+            {% for p in g.items %}
+              <li>
+                <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+                <span class="post-meta">{{ p.date | date: "%b %-d, %Y" }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
