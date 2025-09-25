@@ -1,87 +1,77 @@
-{% comment %}
-  Chirpy-like accordion category tree (multi-depth)
-{% endcomment %}
+{%- comment -%}
+  Build a nested category tree from site.posts (categories: [A, B, C])
+  and render collapsible panels. Links point to real pages:
+  /categories/a/b/c/
+{%- endcomment -%}
 
-{% assign level  = include.level  | default: 0 %}
-{% assign posts  = include.posts  | default: site.posts %}
+{%- assign level = include.level | default: 0 -%}
+{%- assign posts = include.posts -%}
 
-{% assign groups = posts | group_by_exp: 'p', 'p.categories[level]' %}
+{%- comment -%} 현재 레벨에 카테고리가 존재하는 포스트만 필터링 {%- endcomment -%}
+{%- assign has_level = posts | where_exp: "p", "p.categories and p.categories.size > level" -%}
 
-<ul class="cat-cards {% if level == 0 %}root{% endif %}">
-  {% for g in groups %}
-    {% if g.name and g.name != '' %}
+{%- if level == 0 -%}
+<ul class="cat-tree">
+{%- endif -%}
 
-      {% assign next_level = level | plus: 1 %}
-      {% assign subgroups = g.items | group_by_exp: 'p', 'p.categories[next_level]' %}
+{%- comment -%} 같은 레벨의 이름으로 그룹핑 {%- endcomment -%}
+{%- assign groups = has_level | group_by_exp: "p", "p.categories[level]" -%}
+{%- assign groups = groups | sort: "name" -%}
 
-      {% assign subcat_count = 0 %}
-      {% for sg in subgroups %}
-        {% if sg.name and sg.name != '' %}
-          {% assign subcat_count = subcat_count | plus: 1 %}
-        {% endif %}
-      {% endfor %}
+{%- for g in groups -%}
+  {%- assign display_name = g.name -%}
+  {%- assign group_posts = g.items -%}
 
-      {% assign total_posts = g.items | size %}
+  {%- comment -%} 현재 경로 세그먼트 만들기 (0..level) {%- endcomment -%}
+  {%- assign prefix = group_posts[0].categories | slice: 0, level -%}
+  {%- assign segs = prefix | push: display_name -%}
+  {%- assign path = segs | map: 'slugify' | join: '/' -%}
+  {%- assign page_url = '/categories/' | append: path | append: '/' | relative_url -%}
 
-      <li class="cat-card">
-        <details class="card" {% if level == 0 %}open{% endif %}>
-          <summary class="card-header">
-            <i class="fas fa-folder-open" aria-hidden="true"></i>
-            <a class="card-title" href="{{ '/categories/' | append: (g.name | slugify) | append: '/' | relative_url }}">{{ g.name }}</a>
-            <span class="card-stats">
-              {% if subcat_count > 0 %}{{ subcat_count }} categories{% if total_posts > 0 %}, {% endif %}{% endif %}
-              {% if total_posts > 0 %}{{ total_posts }} {% if total_posts == 1 %}post{% else %}posts{% endif %}{% endif %}
-            </span>
-            <i class="fas fa-chevron-down caret" aria-hidden="true"></i>
-          </summary>
+  <li style="margin:.4rem 0;">
+    <details class="cat-panel" {% if level < 1 %}open{% endif %}>
+      <summary class="cat-header">
+        <span>{{ display_name }}</span>
+        <span class="cat-stats">{{ group_posts | size }}</span>
+        <span class="cat-caret">▾</span>
+      </summary>
 
-          {% if subcat_count > 0 %}
-            <ul class="rows">
-              {% for sg in subgroups %}
-                {% if sg.name and sg.name != '' %}
+      <div class="cat-children">
+        {%- comment -%} 더 깊은 레벨이 있는 포스트 vs 리프 포스트 분리 {%- endcomment -%}
+        {%- assign deeper_posts = "" | split: "" -%}
+        {%- assign leaf_posts   = "" | split: "" -%}
+        {%- for p in group_posts -%}
+          {%- if p.categories.size > level | plus: 1 -%}
+            {%- assign deeper_posts = deeper_posts | push: p -%}
+          {%- else -%}
+            {%- assign leaf_posts = leaf_posts | push: p -%}
+          {%- endif -%}
+        {%- endfor -%}
 
-                  {% assign next_next  = next_level | plus: 1 %}
-                  {% assign has_deeper = sg.items | where_exp: 'p', 'p.categories.size > next_next' | size %}
-                  {% assign posts_in_sg = sg.items | size %}
+        {%- if deeper_posts.size > 0 -%}
+          {%- assign next_level = level | plus: 1 -%}
+          {%- include category_tree.html posts=deeper_posts level=next_level -%}
+        {%- endif -%}
 
-                  <li class="row">
-                    {% if has_deeper > 0 %}
-                      {# 더 깊으면 다시 재귀 #}
-                      {% include category_tree.html posts=sg.items level=next_level %}
-                    {% else %}
-                      <div class="row-line">
-                        <i class="far fa-folder" aria-hidden="true"></i>
-                        <a class="card-title" href="{{ '/categories/' | append: (g.name | slugify) | append: '/' | relative_url }}">{{ g.name }}</a>
-                        <span class="row-count">{{ posts_in_sg }} {% if posts_in_sg == 1 %}post{% else %}posts{% endif %}</span>
-                        <i class="fas fa-angle-right row-caret" aria-hidden="true"></i>
-                      </div>
-                      <ul class="cat-posts">
-                        {% for p in sg.items %}
-                          <li class="cat-post">
-                            <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
-                            <span class="post-meta">{{ p.date | date: "%b %-d, %Y" }}</span>
-                          </li>
-                        {% endfor %}
-                      </ul>
-                    {% endif %}
-                  </li>
+        {%- if leaf_posts.size > 0 -%}
+          <ul class="cat-posts">
+          {%- for p in leaf_posts -%}
+            <li class="cat-post">
+              <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+              <span class="post-meta">({{ p.date | date: "%Y-%m-%d" }})</span>
+            </li>
+          {%- endfor -%}
+          </ul>
+        {%- endif -%}
 
-                {% endif %}
-              {% endfor %}
-            </ul>
-          {% else %}
-            <ul class="cat-posts">
-              {% for p in g.items %}
-                <li class="cat-post">
-                  <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
-                  <span class="post-meta">{{ p.date | date: "%b %-d, %Y" }}</span>
-                </li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </details>
-      </li>
+        <div style="padding:.2rem .9rem;">
+          <a href="{{ page_url }}">이 카테고리 페이지로 이동</a>
+        </div>
+      </div>
+    </details>
+  </li>
+{%- endfor -%}
 
-    {% endif %}
-  {% endfor %}
+{%- if level == 0 -%}
 </ul>
+{%- endif -%}

@@ -1,0 +1,56 @@
+---
+layout: default
+---
+
+<h1>{{ page.title }}</h1>
+
+{%- assign segs = page.category_path -%}
+{%- assign depth = segs | size -%}
+
+{%- comment -%} 현재 경로와 매칭되는 포스트 수집 {%- endcomment -%}
+{%- assign posts_in_path = "" | split: "" -%}
+{%- for p in site.posts -%}
+  {%- assign cats = p.categories | default: empty -%}
+  {%- if cats and cats.size >= depth -%}
+    {%- assign match = true -%}
+    {%- for i in (0..depth-1) -%}
+      {%- if cats[i] != segs[i] -%}
+        {%- assign match = false -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if match -%}
+      {%- assign posts_in_path = posts_in_path | push: p -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} 하위(자식) 카테고리 네비게이션 {%- endcomment -%}
+{%- assign child_keys = "" | split: "" -%}
+{%- for p in posts_in_path -%}
+  {%- if p.categories.size > depth -%}
+    {%- assign child = p.categories[depth] -%}
+    {%- unless child_keys contains child -%}
+      {%- assign child_keys = child_keys | push: child -%}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if child_keys.size > 0 -%}
+  <h2>Subcategories</h2>
+  <ul>
+  {%- for c in child_keys -%}
+    {%- assign child_path = segs | push: c -%}
+    {%- assign child_slug = child_path | map: 'slugify' | join: '/' -%}
+    {%- assign child_rel  = '/categories/' | append: child_slug | append: '/' -%}
+    <li><a href="{{ child_rel | relative_url }}">{{ c }}</a></li>
+  {%- endfor -%}
+  </ul>
+{%- endif -%}
+
+<h2>Posts</h2>
+<ul>
+{%- for p in posts_in_path -%}
+  <li><a href="{{ p.url | relative_url }}">{{ p.title }}</a> <small>({{ p.date | date: "%Y-%m-%d" }})</small></li>
+{%- endfor -%}
+</ul>
