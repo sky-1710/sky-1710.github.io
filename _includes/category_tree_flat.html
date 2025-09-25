@@ -1,6 +1,6 @@
 {%- comment -%}
   Flat category tree (카드 스타일, 최대 8단계)
-  각 카테고리 → 전용 페이지(/categories/.../)로 연결
+  각 항목은 /categories/<slug>/ 로 이동
 {%- endcomment -%}
 
 {%- assign items = "" | split: "" -%}
@@ -10,7 +10,7 @@
   {%- assign cats = p.categories | default: "" -%}
   {%- if cats != "" and cats != empty -%}
     {%- assign n = cats | size -%}
-    {%- if n > 8 -%}{%- assign n = 8 -%}{%- endif -%}  {# 최대 8단계 제한 #}
+    {%- if n > 8 -%}{%- assign n = 8 -%}{%- endif -%}
     {%- for i in (1..n) -%}
       {%- assign segs = "" | split: "" -%}
       {%- for j in (0..i-1) -%}
@@ -40,7 +40,8 @@
         {%- assign label = parts[1] -%}
         {%- assign segs  = label | split: "||" -%}
         {%- assign depth = segs | size -%}
-        {%- assign url   = "/categories/" | append: slug | append: "/" -%}
+
+        {%- assign url = "/categories/" | append: slug | append: "/" -%}
 
         {%- assign cnt = 0 -%}
         {%- for p in site.posts -%}
