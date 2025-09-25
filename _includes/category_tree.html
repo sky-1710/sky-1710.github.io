@@ -2,8 +2,8 @@
   Chirpy-like accordion category tree (multi-depth)
 {% endcomment %}
 
-{% assign level = include.level | default: 0 %}
-{% assign posts = include.posts | default: site.posts %}
+{% assign level  = include.level  | default: 0 %}
+{% assign posts  = include.posts  | default: site.posts %}
 
 {% assign groups = posts | group_by_exp: 'p', 'p.categories[level]' %}
 
@@ -14,7 +14,7 @@
       {% assign next_level = level | plus: 1 %}
       {% assign subgroups = g.items | group_by_exp: 'p', 'p.categories[next_level]' %}
 
-      {%- assign subcat_count = 0 -%}
+      {% assign subcat_count = 0 %}
       {% for sg in subgroups %}
         {% if sg.name and sg.name != '' %}
           {% assign subcat_count = subcat_count | plus: 1 %}
@@ -26,34 +26,34 @@
       <li class="cat-card">
         <details class="card" {% if level == 0 %}open{% endif %}>
           <summary class="card-header">
-            <i class="fas fa-folder-open"></i>
+            <i class="fas fa-folder-open" aria-hidden="true"></i>
             <a class="card-title" href="{{ '/categories/' | append: g.name | slugify | append: '/' | relative_url }}">{{ g.name }}</a>
             <span class="card-stats">
               {% if subcat_count > 0 %}{{ subcat_count }} categories{% if total_posts > 0 %}, {% endif %}{% endif %}
               {% if total_posts > 0 %}{{ total_posts }} {% if total_posts == 1 %}post{% else %}posts{% endif %}{% endif %}
             </span>
-            <i class="fas fa-chevron-down caret"></i>
+            <i class="fas fa-chevron-down caret" aria-hidden="true"></i>
           </summary>
 
           {% if subcat_count > 0 %}
             <ul class="rows">
               {% for sg in subgroups %}
                 {% if sg.name and sg.name != '' %}
-                  {% assign next_next = next_level | plus: 1 %}
+
+                  {% assign next_next  = next_level | plus: 1 %}
                   {% assign has_deeper = sg.items | where_exp: 'p', 'p.categories.size > next_next' | size %}
                   {% assign posts_in_sg = sg.items | size %}
 
                   <li class="row">
                     {% if has_deeper > 0 %}
-                      {%- comment -%} 하위가 더 있으면 다시 카드로 재귀 {%- endcomment -%}
+                      {# 더 깊으면 다시 재귀 #}
                       {% include category_tree.html posts=sg.items level=next_level %}
                     {% else %}
-                      {%- comment -%} 리프면: 행 + 바로 글 목록 {%- endcomment -%}
                       <div class="row-line">
-                        <i class="far fa-folder"></i>
+                        <i class="far fa-folder" aria-hidden="true"></i>
                         <a class="row-name" href="{{ '/categories/' | append: sg.name | slugify | append: '/' | relative_url }}">{{ sg.name }}</a>
                         <span class="row-count">{{ posts_in_sg }} {% if posts_in_sg == 1 %}post{% else %}posts{% endif %}</span>
-                        <i class="fas fa-angle-right row-caret"></i>
+                        <i class="fas fa-angle-right row-caret" aria-hidden="true"></i>
                       </div>
                       <ul class="cat-posts">
                         {% for p in sg.items %}
@@ -65,6 +65,7 @@
                       </ul>
                     {% endif %}
                   </li>
+
                 {% endif %}
               {% endfor %}
             </ul>
