@@ -1,8 +1,5 @@
 {%- comment -%}
   Flat category tree (no recursion)
-  - site.posts 에서 모든 부분경로(prefix)를 수집해 한 번에 렌더링
-  - 각 항목의 링크: /categories/<slugged path>/
-  - 들여쓰기: depth 기반 padding
 {%- endcomment -%}
 
 {%- assign items = "" | split: "" -%}
@@ -41,7 +38,6 @@
   {%- assign depth = segs | size -%}
   {%- assign url   = "/categories/" | append: slug | append: "/" -%}
 
-  {%- comment -%} 이 prefix에 속한 글 개수 {%- endcomment -%}
   {%- assign cnt = 0 -%}
   {%- for p in site.posts -%}
     {%- assign cats = p.categories | default: "" -%}

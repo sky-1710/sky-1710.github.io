@@ -19,6 +19,7 @@ order: 1
 .cat-post .post-meta{margin-left:.35rem;opacity:.65;font-size:.95em}
 </style>
 
+<p style="opacity:.6">debug: posts={{ site.posts | size }}</p>
 
 
-{% include category_tree_flat.html posts=site.posts level=0 %}
+{% include category_tree_flat.html %}
