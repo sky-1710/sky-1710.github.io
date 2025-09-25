@@ -1,6 +1,6 @@
 {%- comment -%}
-  Flat category tree (카드 스타일, 최대 8단계)
-  각 항목은 /categories/<slug>/ 로 이동
+Flat category tree (카드 스타일, 최대 8단계)
+각 항목은 /categories/#<slug> 로 이동 (동일 페이지 앵커)
 {%- endcomment -%}
 
 {%- assign items = "" | split: "" -%}
@@ -36,12 +36,11 @@
     <ul class="list-group list-group-flush">
       {%- for entry in items -%}
         {%- assign parts = entry | split: "::" -%}
-        {%- assign slug  = parts[0] -%}
+        {%- assign slug_path = parts[0] -%}                 {# 예: "대학교/전산" #}
+        {%- assign anchor_id = slug_path | replace: "/","-" -%}  {# id에 / 대신 - #}
         {%- assign label = parts[1] -%}
         {%- assign segs  = label | split: "||" -%}
         {%- assign depth = segs | size -%}
-
-        {%- assign url = "/categories/" | append: slug | append: "/" -%}
 
         {%- assign cnt = 0 -%}
         {%- for p in site.posts -%}
@@ -56,7 +55,7 @@
         {%- endfor -%}
 
         <li class="list-group-item" style="padding-left: {{ depth | minus: 1 | times: 16 }}px">
-          <a href="{{ url | relative_url }}">
+          <a href="{{ '/categories/#' | append: anchor_id | relative_url }}">
             <i class="far fa-folder fa-fw"></i> {{ segs | last }}
           </a>
           <span class="badge bg-secondary ms-2">{{ cnt }}</span>
@@ -65,3 +64,34 @@
     </ul>
   </div>
 </div>
+
+{# --- 아래: 실제 섹션들 렌더링 (앵커 타겟) --- #}
+{%- for entry in items -%}
+  {%- assign parts = entry | split: "::" -%}
+  {%- assign slug_path = parts[0] -%}
+  {%- assign anchor_id = slug_path | replace: "/","-" -%}
+  {%- assign label = parts[1] -%}
+  {%- assign segs  = label | split: "||" -%}
+  {%- assign depth = segs | size -%}
+
+  <section id="{{ anchor_id }}" class="my-4">
+    <h2 class="h4"><i class="far fa-folder-open"></i> {{ segs | last }}</h2>
+    <ul>
+      {%- for p in site.posts -%}
+        {%- assign cats = p.categories | default: "" -%}
+        {%- if cats and cats != empty and cats.size >= depth -%}
+          {%- assign ok = true -%}
+          {%- for k in (0..depth-1) -%}
+            {%- if cats[k] != segs[k] -%}{%- assign ok = false -%}{%- break -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if ok -%}
+            <li>
+              <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+              <time class="ms-2" datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%Y-%m-%d" }}</time>
+            </li>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endfor -%}
