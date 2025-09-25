@@ -1,61 +1,74 @@
 {%- comment -%}
-  Recursive category tree.
+  Recursive category tree (no duplicates)
   Params:
-    posts  : collection of posts to consider (required)
-    level  : current depth (0 for root)
-    path   : array of category segments built so far (optional)
+    posts  : collection of posts (required)
+    level  : integer depth (0 for root)
+    path   : array of category segments accumulated so far (optional)
 {%- endcomment -%}
 
 {%- assign path = path | default: "" | split: "" -%}
 
-{%- assign groups = posts
-  | group_by_exp: 'p', 'p.categories[level]'
--%}
+{%- comment -%} 1) 현재 level 기준으로 '자식 키' 집합 만들기 {%- endcomment -%}
+{%- assign child_keys = "" | split: "" -%}
+{%- for p in posts -%}
+  {%- if p.categories and p.categories.size > level -%}
+    {%- assign key = p.categories[level] -%}
+    {%- unless child_keys contains key -%}
+      {%- assign child_keys = child_keys | push: key -%}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
 
 <ul class="cat-tree">
-{%- for g in groups -%}
-  {%- assign child = g.name -%}
-  {%- if child -%}
-    {%- assign child_posts = g.items -%}
-    {%- assign segs = path | push: child -%}
-    {%- assign slug_path = segs | map: 'slugify' | join: '/' -%}
-    {%- assign page_rel  = '/categories/' | append: slug_path | append: '/' -%}
+{%- for child in child_keys -%}
+  {%- comment -%} 2) 해당 자식에 속한 포스트들만 추출 {%- endcomment -%}
+  {%- assign child_posts = "" | split: "" -%}
+  {%- for p in posts -%}
+    {%- if p.categories and p.categories.size > level and p.categories[level] == child -%}
+      {%- assign child_posts = child_posts | push: p -%}
+    {%- endif -%}
+  {%- endfor -%}
 
-    <li class="cat-node">
-      <details class="cat-panel">
-        <summary class="cat-header">
-          <span>{{ child }}</span>
-          <span class="cat-stats">{{ child_posts | size }}</span>
-          <span class="cat-caret">▾</span>
-        </summary>
+  {%- assign segs = path | push: child -%}
+  {%- assign slug_path = segs | map: 'slugify' | join: '/' -%}
+  {%- assign page_rel  = '/categories/' | append: slug_path | append: '/' -%}
 
-        <div class="cat-children">
-          <p><a href="{{ page_rel | relative_url }}">이 카테고리 페이지로 이동</a></p>
+  <li class="cat-node">
+    <details class="cat-panel">
+      <summary class="cat-header">
+        <span>{{ child }}</span>
+        <span class="cat-stats">{{ child_posts | size }}</span>
+        <span class="cat-caret">▾</span>
+      </summary>
 
-          {%- comment -%} descend one level if there are deeper categories {%- endcomment -%}
-          {%- assign next_level = level | plus: 1 -%}
-          {%- assign deeper_posts = "" | split: "" -%}
-          {%- for p in child_posts -%}
-            {%- if p.categories.size > next_level -%}
-              {%- assign deeper_posts = deeper_posts | push: p -%}
-            {%- endif -%}
-          {%- endfor -%}
+      <div class="cat-children">
+        <!-- 카테고리 아카이브로 이동 (노드당 1회) -->
+        <p><a href="{{ page_rel | relative_url }}">이 카테고리 페이지로 이동</a></p>
 
-          {%- if deeper_posts.size > 0 -%}
-            {%- include category_tree.html posts=deeper_posts level=next_level path=segs -%}
-          {%- else -%}
-            <ul class="cat-posts">
-              {%- for p in child_posts -%}
-                <li class="cat-post">
-                  <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
-                  <span class="post-meta">{{ p.date | date: "%Y-%m-%d" }}</span>
-                </li>
-              {%- endfor -%}
-            </ul>
+        {%- assign next_level = level | plus: 1 -%}
+
+        {%- comment -%} 3) 더 깊은 하위가 있는 포스트가 있는지 확인 {%- endcomment -%}
+        {%- assign deeper_posts = "" | split: "" -%}
+        {%- for p in child_posts -%}
+          {%- if p.categories.size > next_level -%}
+            {%- assign deeper_posts = deeper_posts | push: p -%}
           {%- endif -%}
-        </div>
-      </details>
-    </li>
-  {%- endif -%}
+        {%- endfor -%}
+
+        {%- if deeper_posts.size > 0 -%}
+          {%- include category_tree.html posts=deeper_posts level=next_level path=segs -%}
+        {%- else -%}
+          <ul class="cat-posts">
+            {%- for p in child_posts -%}
+              <li class="cat-post">
+                <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+                <span class="post-meta">{{ p.date | date: "%Y-%m-%d" }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </details>
+  </li>
 {%- endfor -%}
 </ul>
