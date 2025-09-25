@@ -1,36 +1,64 @@
 {% comment %}
-  Recursive category tree renderer for Chirpy.
-  사용법: {% include category_tree.html posts=site.posts level=0 %}
+  Chirpy-style collapsible category tree (N-depth)
+  - 상단 요약: "이름  X categories , Y posts"
+  - 중간은 계속 폴더처럼 재귀
+  - 리프(더 깊이 없음)면 글 목록 노출
 {% endcomment %}
 
-{% assign level = include.level | default: 0 %}
-{% assign posts = include.posts | default: site.posts %}
+{% assign level  = include.level  | default: 0 %}
+{% assign posts  = include.posts  | default: site.posts %}
 
-{%- comment -%} 현재 단계 이름으로 그룹핑 {%- endcomment -%}
 {% assign groups = posts | group_by_exp: 'p', 'p.categories[level]' %}
 
-<ul>
+<ul class="cat-tree {% if level == 0 %}root{% endif %}">
   {% for g in groups %}
     {% if g.name and g.name != '' %}
-      <li>
-        <span>{{ g.name }}</span>
-
-        {%- assign next_level = level | plus: 1 -%}
-        {%- assign deeper = g.items | where_exp: 'p', 'p.categories.size > next_level' -%}
-
-        {% if deeper.size > 0 %}
-          {% include category_tree.html posts=g.items level=next_level %}
-        {% else %}
-          <ul>
-            {% for p in g.items %}
-              <li>
-                <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
-                <span class="post-meta">{{ p.date | date: "%b %-d, %Y" }}</span>
-              </li>
-            {% endfor %}
-          </ul>
+      {% assign next_level = level | plus: 1 %}
+      {% assign deeper_items = g.items | where_exp: 'p', 'p.categories.size > next_level' %}
+      {% assign subgroups = g.items | group_by_exp: 'p', 'p.categories[next_level]' %}
+      {% assign subcat_count = 0 %}
+      {% for sg in subgroups %}
+        {% if sg.name and sg.name != '' %}
+          {% assign subcat_count = subcat_count | plus: 1 %}
         {% endif %}
+      {% endfor %}
+      {% assign total_posts = g.items | size %}
+
+      <li class="cat-branch">
+        <details class="cat-panel" {% if level == 0 %}open{% endif %}>
+          <summary class="cat-header">
+            <i class="fas fa-folder-open" aria-hidden="true"></i>
+            <span class="cat-name">{{ g.name }}</span>
+            <span class="cat-stats">
+              {% if subcat_count > 0 %}
+                {{ subcat_count }} categories{% if total_posts > 0 %}, {% endif %}
+              {% endif %}
+              {% if total_posts > 0 %}
+                {{ total_posts }} {% if total_posts == 1 %}post{% else %}posts{% endif %}
+              {% endif %}
+            </span>
+            <i class="fas fa-chevron-down cat-caret" aria-hidden="true"></i>
+          </summary>
+
+          {% if deeper_items.size > 0 %}
+            {%- comment -%} 더 깊은 단계: 재귀 {%- endcomment -%}
+            <div class="cat-children">
+              {% include category_tree.html posts=g.items level=next_level %}
+            </div>
+          {% else %}
+            {%- comment -%} 리프: 글 목록 {%- endcomment -%}
+            <ul class="cat-posts">
+              {% for p in g.items %}
+                <li class="cat-post">
+                  <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+                  <span class="post-meta">{{ p.date | date: "%b %-d, %Y" }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </details>
       </li>
+
     {% endif %}
   {% endfor %}
 </ul>
