@@ -68,25 +68,56 @@ Flat category tree (카드 스타일, 최대 8단계)
   </ul>
 </div>
 
+
+
+{%- comment -%} CATEGORY_ITEMS JSON for client-side rendering {%- endcomment -%}
+<script id="category-data" type="application/json">
+[
+{% assign first = true %}
+{% for p in site.posts %}
+  {% assign cats = p.categories | default: "" %}
+  {% if cats and cats != empty %}
+    {% unless first %},{% endunless %}
+    {% assign first = false %}
+    {
+      "path": {{ cats | jsonify }},
+      "slug": {{ cats | join:'/' | slugify:'raw' | replace:'/','-' | jsonify }},
+      "label": {{ cats | last | jsonify }},
+      "posts": [
+        {
+          "title": {{ p.title | jsonify }},
+          "url": {{ p.url | relative_url | jsonify }},
+          "date": {{ p.date | date: '%Y-%m-%d' | jsonify }}
+        }
+      ]
+    }
+  {% endif %}
+{% endfor %}
+]
+</script>
+
+
 {%- comment -%} Emit a JS array of category items (path segments + posts) for client-side rendering {%- endcomment -%}
 <script>
 // Build CATEGORY_ITEMS from Liquid `items` using `jsonify` to ensure valid JSON strings
 // Expose on window so DevTools and other scripts can access it reliably in different build environments.
-window.CATEGORY_ITEMS = (typeof window.CATEGORY_ITEMS !== "undefined" ? window.CATEGORY_ITEMS : [
-{% assign first_item = true %}
-{% for p in site.posts %}
-  {%- assign cats = p.categories | default: "" -%}
-  {%- if cats and cats != empty -%}
-    {%- if first_item -%}{%- assign first_item = false -%}{%- else -%},{%- endif -%}
-    {
-      "path": {{ cats | jsonify }},
-      "slug": {{ cats | join: '/' | slugify: 'raw' | replace: '/' , '-' | jsonify }},
-      "label": {{ cats | last | jsonify }},
-      "posts": [ { "title": {{ p.title | jsonify }}, "url": {{ p.url | relative_url | jsonify }}, "date": {{ p.date | date: '%Y-%m-%d' | jsonify }} } ]
-    }
-  {%- endif -%}
-{% endfor %}
-]);
+/*
+#window.CATEGORY_ITEMS = (typeof window.CATEGORY_ITEMS !== "undefined" ? window.CATEGORY_ITEMS : [
+#{% assign first_item = true %}
+#{% for p in site.posts %}
+#  {%- assign cats = p.categories | default: "" -%}
+#  {%- if cats and cats != empty -%}
+#    {%- if first_item -%}{%- assign first_item = false -%}{%- else -%},{%- endif -%}
+#    {
+#      "path": {{ cats | jsonify }},
+#      "slug": {{ cats | join: '/' | slugify: 'raw' | replace: '/' , '-' | jsonify }},
+#      "label": {{ cats | last | jsonify }},
+#      "posts": [ { "title": {{ p.title | jsonify }}, "url": {{ p.url | relative_url | jsonify }}, "date": {{ p.date | date: '%Y-%m-%d' | jsonify }} } ]
+#    }
+#  {%- endif -%}
+#{% endfor %}
+#]);
+*/
 
 // Small runtime hint for debugging — will show how many items were emitted.
 try { console.debug('CATEGORY_ITEMS emitted:', window.CATEGORY_ITEMS && window.CATEGORY_ITEMS.length); } catch (e) { /* ignore */ }
@@ -187,48 +218,41 @@ function renderNode(node){
   return ul;
 }
 
+
 document.addEventListener('DOMContentLoaded', function(){
+  var items = [];
   try {
-    var root = buildTree(CATEGORY_ITEMS);
+    var el = document.getElementById('category-data');
+    items = el ? JSON.parse(el.textContent || '[]') : [];
+  } catch (e) {
+    console.error('[category] JSON parse failed', e);
+  }
+
+  window.CATEGORY_ITEMS = items; // 디버깅용으로 전역 노출
+  console.debug('[category] items length =', items.length);
+
+  try {
+    var root = buildTree(items);
     var container = document.getElementById('category-tree-root');
     if(!container) return;
     var tree = renderNode(root);
     container.appendChild(tree);
-    // hide fallback if present
-    var fb = document.getElementById('category-fallback'); if(fb) fb.style.display = 'none';
+
+    // 성공 시 fallback 숨김
+    var fb = document.getElementById('category-fallback');
+    if (items.length > 0 && fb) fb.style.display = 'none';
   } catch (err) {
     console.error('Category tree render error:', err);
   }
 });
+
+
+
 </script>
 
 
 
 
-{%- comment -%} CATEGORY_ITEMS JSON for client-side rendering {%- endcomment -%}
-<script id="category-data" type="application/json">
-[
-{% assign first = true %}
-{% for p in site.posts %}
-  {% assign cats = p.categories | default: "" %}
-  {% if cats and cats != empty %}
-    {% unless first %},{% endunless %}
-    {% assign first = false %}
-    {
-      "path": {{ cats | jsonify }},
-      "slug": {{ cats | join:'/' | slugify:'raw' | replace:'/','-' | jsonify }},
-      "label": {{ cats | last | jsonify }},
-      "posts": [
-        {
-          "title": {{ p.title | jsonify }},
-          "url": {{ p.url | relative_url | jsonify }},
-          "date": {{ p.date | date: '%Y-%m-%d' | jsonify }}
-        }
-      ]
-    }
-  {% endif %}
-{% endfor %}
-]
-</script>
+
 
 
