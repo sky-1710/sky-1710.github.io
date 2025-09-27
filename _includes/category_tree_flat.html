@@ -71,7 +71,8 @@ Flat category tree (카드 스타일, 최대 8단계)
 {%- comment -%} Emit a JS array of category items (path segments + posts) for client-side rendering {%- endcomment -%}
 <script>
 // Build CATEGORY_ITEMS from Liquid `items` using `jsonify` to ensure valid JSON strings
-var CATEGORY_ITEMS = [
+// Expose on window so DevTools and other scripts can access it reliably in different build environments.
+window.CATEGORY_ITEMS = (typeof window.CATEGORY_ITEMS !== "undefined" ? window.CATEGORY_ITEMS : [
 {% assign first_item = true %}
 {% for p in site.posts %}
   {%- assign cats = p.categories | default: "" -%}
@@ -85,7 +86,10 @@ var CATEGORY_ITEMS = [
     }
   {%- endif -%}
 {% endfor %}
-];
+]);
+
+// Small runtime hint for debugging — will show how many items were emitted.
+try { console.debug('CATEGORY_ITEMS emitted:', window.CATEGORY_ITEMS && window.CATEGORY_ITEMS.length); } catch (e) { /* ignore */ }
 
 // Build a nested tree object from CATEGORY_ITEMS
 function buildTree(items){
