@@ -201,3 +201,34 @@ document.addEventListener('DOMContentLoaded', function(){
   }
 });
 </script>
+
+
+
+
+{%- comment -%} CATEGORY_ITEMS JSON for client-side rendering {%- endcomment -%}
+<script id="category-data" type="application/json">
+[
+{% assign first = true %}
+{% for p in site.posts %}
+  {% assign cats = p.categories | default: "" %}
+  {% if cats and cats != empty %}
+    {% unless first %},{% endunless %}
+    {% assign first = false %}
+    {
+      "path": {{ cats | jsonify }},
+      "slug": {{ cats | join:'/' | slugify:'raw' | replace:'/','-' | jsonify }},
+      "label": {{ cats | last | jsonify }},
+      "posts": [
+        {
+          "title": {{ p.title | jsonify }},
+          "url": {{ p.url | relative_url | jsonify }},
+          "date": {{ p.date | date: '%Y-%m-%d' | jsonify }}
+        }
+      ]
+    }
+  {% endif %}
+{% endfor %}
+]
+</script>
+
+
