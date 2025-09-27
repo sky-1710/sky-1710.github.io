@@ -1,0 +1,26 @@
+{%- comment -%}
+재귀적으로 카테고리 트리와 포스트를 렌더링하는 include 파일
+{%- endcomment -%}
+{%- assign keys = node | keys -%}
+{%- for key in keys -%}
+  {%- if key != 'posts' -%}
+    <li>
+      <span class="toggle-btn">▶</span>
+      <span class="category-name">{{ key }}</span>
+      <ul class="subcategory-list collapsed">
+        {%- assign child = node[key] -%}
+        {%- assign child_depth = depth | plus: 1 -%}
+        {%- assign child_parent = parent | append: '/' | append: key -%}
+        {%- include category_tree_recursive.html node=child depth=child_depth parent=child_parent -%}
+      </ul>
+    </li>
+  {%- endif -%}
+{%- endfor -%}
+{%- if node.posts -%}
+  {%- for post in node.posts -%}
+    <li>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      <time class="ms-2" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+    </li>
+  {%- endfor -%}
+{%- endif -%}

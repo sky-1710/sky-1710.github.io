@@ -1,6 +1,6 @@
 {%- comment -%}
 Flat category tree (카드 스타일, 최대 8단계)
-각 항목은 /categories/#<slug> 로 이동 (동일 페이지 앵커)
+각 항목은 아래 섹션(앵커)에서 포스트 목록을 보여줍니다.
 {%- endcomment -%}
 
 {%- assign items = "" | split: "" -%}
@@ -8,7 +8,7 @@ Flat category tree (카드 스타일, 최대 8단계)
 
 {%- for p in site.posts -%}
   {%- assign cats = p.categories | default: "" -%}
-  {%- if cats != "" and cats != empty -%}
+  {%- if cats and cats != empty -%}
     {%- assign n = cats | size -%}
     {%- if n > 8 -%}{%- assign n = 8 -%}{%- endif -%}
     {%- for i in (1..n) -%}
@@ -17,8 +17,8 @@ Flat category tree (카드 스타일, 최대 8단계)
         {%- assign segs = segs | push: cats[j] -%}
       {%- endfor -%}
       {%- assign label = segs | join: "||" -%}
-      {%- assign slug_path = segs | join: "/" -%}     
-      {%- assign key   = slug_path -%}
+      {%- assign slug_path = segs | join: "/" -%}
+      {%- assign key = slug_path -%}
       {%- assign probe = "|" | append: key | append: "|" -%}
       {%- unless guard contains probe -%}
         {%- assign entry = key | append: "::" | append: label -%}
@@ -31,68 +31,173 @@ Flat category tree (카드 스타일, 최대 8단계)
 
 {%- assign items = items | sort -%}
 
-<div class="card categories mb-3">
+<style>
+/* small styles for the accordion (client-rendered) */
+.category-card { margin-bottom: 0.5rem }
+.category-tree { list-style: none; padding-left: 0; margin: 0; font-size:0.95em }
+.category-tree li { padding: 2px 6px; display:block; line-height:1.15; margin-bottom:2px }
+.category-tree .ct-row { display:flex; align-items:center; gap:6px; justify-content:flex-start }
+.category-tree .toggle-btn { background:transparent; border:0; cursor:pointer; margin-right:4px; font-size:0.85em; padding:0 4px; width:auto; text-align:center }
+.category-tree .ct-row .category-name { display:inline-block }
+.category-tree .children, .category-tree .posts { display:none; margin-left: 6px; padding-left: 6px; border-left: 1px solid rgba(0,0,0,0.02) }
+.category-tree .open > .children, .category-tree .open > .posts { display:block }
+.category-name { cursor: pointer; color:inherit; text-decoration:none; margin-right:6px }
+.debug-box { background:#fffbea; border:1px solid #e6db9a; padding:8px; margin-top:12px }
+.badge { margin-left: 4px; font-size:0.85em; background:transparent }
+
+/* shrink card body for the tree */
+.category-card .card-body { padding-top: 0.5rem; padding-bottom: 0.5rem }
+</style>
+
+<div class="card categories mb-3 category-card">
   <div class="card-body p-2">
-    <ul class="list-group list-group-flush">
-      {%- for entry in items -%}
-        {%- assign parts = entry | split: "::" -%}
-        {%- assign slug_path = parts[0] -%}
-        {%- assign anchor_id = slug_path | slugify: 'raw' | replace: "/","-" -%}
-        {%- assign label = parts[1] -%}
-        {%- assign segs  = label | split: "||" -%}
-        {%- assign depth = segs | size -%}
-
-        {%- assign cnt = 0 -%}
-        {%- for p in site.posts -%}
-          {%- assign cats = p.categories | default: "" -%}
-          {%- if cats and cats != empty and cats.size >= depth -%}
-            {%- assign ok = true -%}
-            {%- for k in (0..depth-1) -%}
-              {%- if cats[k] != segs[k] -%}{%- assign ok = false -%}{%- break -%}{%- endif -%}
-            {%- endfor -%}
-            {%- if ok -%}{%- assign cnt = cnt | plus: 1 -%}{%- endif -%}
-          {%- endif -%}
-        {%- endfor -%}
-
-        <li class="list-group-item" style="padding-left: {{ depth | minus: 1 | times: 16 }}px">
-          <a href="{{ '/categories/#' | append: anchor_id | relative_url }}">
-            <i class="far fa-folder fa-fw"></i> {{ segs | last }}
-          </a>
-          <span class="badge bg-secondary ms-2">{{ cnt }}</span>
-        </li>
-      {%- endfor -%}
-    </ul>
+    <div id="category-tree-root"></div>
   </div>
 </div>
 
-{%- comment -%} 아래: 실제 섹션들 렌더링 (앵커 타겟) {%- endcomment -%}
+<!-- Fallback: server-rendered list (visible if JS fails). JS will hide this on success. -->
+<div id="category-fallback" class="card mb-3" style="padding:12px;">
+  <strong>Fallback: posts (if JS failed)</strong>
+  <ul>
+    {%- for p in site.posts -%}
+      <li>
+        <span style="color:#666">{{ p.categories | join: ' / ' }}</span>
+        — <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>
 
-{%- for entry in items -%}
-  {%- assign parts = entry | split: "::" -%}
-  {%- assign slug_path = parts[0] -%}
-  {%- assign anchor_id = slug_path | slugify: 'raw' | replace: "/","-" -%}
-  {%- assign label = parts[1] -%}
-  {%- assign segs  = label | split: "||" -%}
-  {%- assign depth = segs | size -%}
+{%- comment -%} Emit a JS array of category items (path segments + posts) for client-side rendering {%- endcomment -%}
+<script>
+// Build CATEGORY_ITEMS from Liquid `items`
+var CATEGORY_ITEMS = [
+{% assign first_item = true %}
+{% for p in site.posts %}
+  {%- assign cats = p.categories | default: "" -%}
+  {%- if cats and cats != empty -%}
+    {%- if first_item -%}{%- assign first_item = false -%}{%- else -%},{%- endif -%}
+    {
+      "path": [
+        {%- for c in cats -%}
+          "{{ c | escape }}"{%- if forloop.last == false -%},{%- endif -%}
+        {%- endfor -%}
+      ],
+      "slug": "{{ cats | join: '/' | slugify: 'raw' | replace: '/', '-' }}",
+      "label": "{{ cats | last | escape }}",
+      "posts": [ {"title": "{{ p.title | escape }}", "url": "{{ p.url | relative_url }}", "date": "{{ p.date | date: '%Y-%m-%d' }}"} ]
+    }
+  {%- endif -%}
+{% endfor %}
+];
 
-  <section id="{{ anchor_id }}" class="my-4">
-    <h2 class="h4"><i class="far fa-folder-open"></i> {{ segs | last }}</h2>
-    <ul>
-      {%- for p in site.posts -%}
-        {%- assign cats = p.categories | default: "" -%}
-        {%- if cats and cats != empty and cats.size >= depth -%}
-          {%- assign ok = true -%}
-          {%- for k in (0..depth-1) -%}
-            {%- if cats[k] != segs[k] -%}{%- assign ok = false -%}{%- break -%}{%- endif -%}
-          {%- endfor -%}
-          {%- if ok -%}
-            <li>
-              <a href="{{ p.url | relative_url }}">{{ p.title }}</a>
-              <time class="ms-2" datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%Y-%m-%d" }}</time>
-            </li>
-          {%- endif -%}
-        {%- endif -%}
-      {%- endfor -%}
-    </ul>
-  </section>
-{%- endfor -%}
+// Build a nested tree object from CATEGORY_ITEMS
+function buildTree(items){
+  var root = { children: {} };
+  items.forEach(function(it){
+    var node = root;
+    it.path.forEach(function(seg, idx){
+      if(!node.children[seg]) node.children[seg] = { name: seg, children: {}, posts: [] };
+      node = node.children[seg];
+      if(idx === it.path.length - 1){
+        // attach posts at leaf
+        node.posts = node.posts.concat(it.posts || []);
+        node.slug = it.slug;
+      }
+    });
+  });
+  return root;
+}
+
+// Render DOM recursively
+function renderNode(node){
+  var ul = document.createElement('ul');
+  ul.className = 'category-tree';
+  Object.keys(node.children).sort().forEach(function(key){
+    var child = node.children[key];
+    var li = document.createElement('li');
+    li.className = 'category-item';
+
+  // control row (button + name + badge)
+  var row = document.createElement('div');
+  row.className = 'ct-row';
+
+    var btn = document.createElement('button');
+    btn.className = 'toggle-btn';
+    btn.type = 'button';
+    btn.textContent = child && (Object.keys(child.children).length || child.posts.length) ? '▶' : '';
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      li.classList.toggle('open');
+      btn.textContent = li.classList.contains('open') ? '▼' : '▶';
+    });
+  row.appendChild(btn);
+
+    var span = document.createElement('span');
+    span.className = 'category-name';
+    span.textContent = child.name;
+    span.addEventListener('click', function(){ li.classList.toggle('open'); btn.textContent = li.classList.contains('open') ? '▼' : '▶'; });
+  row.appendChild(span);
+
+    // compute total posts including descendants
+    function totalPosts(n){
+      var c = (n.posts || []).length;
+      Object.keys(n.children || {}).forEach(function(k){ c += totalPosts(n.children[k]); });
+      return c;
+    }
+    var badge = document.createElement('span');
+    badge.className = 'badge';
+    badge.textContent = totalPosts(child);
+  row.appendChild(badge);
+
+  li.appendChild(row);
+
+    // children
+    if(Object.keys(child.children).length){
+      var childrenContainer = document.createElement('div');
+      childrenContainer.className = 'children';
+      childrenContainer.appendChild(renderNode(child));
+      li.appendChild(childrenContainer);
+    }
+
+    // posts (leaf)
+    if(child.posts && child.posts.length){
+      var postsDiv = document.createElement('div');
+      postsDiv.className = 'posts';
+      var postsUl = document.createElement('ul');
+      child.posts.forEach(function(p){
+        var pli = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = p.url;
+        a.textContent = p.title;
+        pli.appendChild(a);
+        var t = document.createElement('time');
+        t.className = 'ms-2';
+        t.dateTime = p.date;
+        t.textContent = ' ' + p.date;
+        pli.appendChild(t);
+        postsUl.appendChild(pli);
+      });
+      postsDiv.appendChild(postsUl);
+      li.appendChild(postsDiv);
+    }
+
+    ul.appendChild(li);
+  });
+  return ul;
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  try {
+    var root = buildTree(CATEGORY_ITEMS);
+    var container = document.getElementById('category-tree-root');
+    if(!container) return;
+    var tree = renderNode(root);
+    container.appendChild(tree);
+    // hide fallback if present
+    var fb = document.getElementById('category-fallback'); if(fb) fb.style.display = 'none';
+  } catch (err) {
+    console.error('Category tree render error:', err);
+  }
+});
+</script>

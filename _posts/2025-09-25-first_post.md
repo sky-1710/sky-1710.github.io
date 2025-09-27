@@ -1,12 +1,14 @@
 ---
-title: 첫 포스트 
+title: 첫 포스트
 date: 2025-09-25 10:20:00 +09:00
-categories: [S/W]
-tags: [만들기]
-pin: True
+categories:
+  - S/W
+tags:
+  - 만들기
+pin: true
 ---
 
-## 준비중
+### 준비중
 1. 글은 _post 파일에 yyyy-mm-dd-title.md 파일로 작성
 
     1. 아래의 양식으로 작성
