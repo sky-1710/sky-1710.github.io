@@ -1,0 +1,55 @@
+name: Build & Deploy Jekyll (with plugins)
+
+on:
+  push:
+    branches: [ master ]   # ← 브랜치명이 main이면 main으로 바꿔주세요
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.6'        # 로컬과 맞추면 가장 안정적
+          bundler-cache: true
+
+      - name: Install gems
+        run: bundle install --path vendor/bundle
+
+      # 필요시 미래 날짜 포스트 포함: --future
+      - name: Build Jekyll
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build --trace
+        # run: bundle exec jekyll build --future --trace   # ← 미래 포스트도 보이게 하려면 이 줄을 사용
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
