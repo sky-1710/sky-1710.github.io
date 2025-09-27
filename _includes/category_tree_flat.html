@@ -70,7 +70,7 @@ Flat category tree (카드 스타일, 최대 8단계)
 
 {%- comment -%} Emit a JS array of category items (path segments + posts) for client-side rendering {%- endcomment -%}
 <script>
-// Build CATEGORY_ITEMS from Liquid `items`
+// Build CATEGORY_ITEMS from Liquid `items` using `jsonify` to ensure valid JSON strings
 var CATEGORY_ITEMS = [
 {% assign first_item = true %}
 {% for p in site.posts %}
@@ -78,14 +78,10 @@ var CATEGORY_ITEMS = [
   {%- if cats and cats != empty -%}
     {%- if first_item -%}{%- assign first_item = false -%}{%- else -%},{%- endif -%}
     {
-      "path": [
-        {%- for c in cats -%}
-          "{{ c | escape }}"{%- if forloop.last == false -%},{%- endif -%}
-        {%- endfor -%}
-      ],
-      "slug": "{{ cats | join: '/' | slugify: 'raw' | replace: '/', '-' }}",
-      "label": "{{ cats | last | escape }}",
-      "posts": [ {"title": "{{ p.title | escape }}", "url": "{{ p.url | relative_url }}", "date": "{{ p.date | date: '%Y-%m-%d' }}"} ]
+      "path": {{ cats | jsonify }},
+      "slug": {{ cats | join: '/' | slugify: 'raw' | replace: '/' , '-' | jsonify }},
+      "label": {{ cats | last | jsonify }},
+      "posts": [ { "title": {{ p.title | jsonify }}, "url": {{ p.url | relative_url | jsonify }}, "date": {{ p.date | date: '%Y-%m-%d' | jsonify }} } ]
     }
   {%- endif -%}
 {% endfor %}
