@@ -1,0 +1,40 @@
+/* 토글(Details) 기본 스타일 */
+details {
+  margin: 0.75rem 0;
+  padding: 0.5rem;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  background: var(--background-primary);
+}
+
+/* 토글 summary 스타일 */
+details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.25rem;
+
+  display: flex;          /* 가로 정렬 */
+  align-items: center;    /* 세로 가운데 맞춤 */
+  list-style: none;       /* 기본 disclosure marker 제거 */
+}
+
+/* 커스텀 화살표 아이콘 */
+details > summary::before {
+  content: "▶";           /* 닫혔을 때 화살표 */
+  display: inline-block;
+  margin-right: 0.5em;
+  transition: transform 0.2s ease;
+}
+
+/* 열렸을 때 화살표 회전 */
+details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+/* 토글 안 리스트 스타일 복원 */
+details ul,
+details ol {
+  list-style: revert;
+  margin-left: 1.5rem;
+  padding-left: 0.5rem;
+}

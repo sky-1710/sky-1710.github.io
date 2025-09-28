@@ -39,3 +39,17 @@
 .cat-post { margin: .25rem 0; }
 .cat-post a { text-decoration: none; }
 .cat-post .post-meta { margin-left: .35rem; opacity: .65; font-size: .95em; }
+
+
+
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { 
+  content: "▸"; 
+  display: inline-block; 
+  margin-right: .4em; 
+  transition: transform .2s; 
+}
+details[open] > summary::before { content: "▾"; }
+
+

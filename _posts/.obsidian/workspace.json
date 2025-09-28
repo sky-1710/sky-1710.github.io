@@ -8,13 +8,17 @@
         "type": "tabs",
         "children": [
           {
-            "id": "88293726f3436354",
+            "id": "508d159e56ec9374",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "2025-09-26-Programming Language Intro."
             }
           }
         ]
@@ -162,10 +166,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "88293726f3436354",
+  "active": "508d159e56ec9374",
   "lastOpenFiles": [
+    "templates/toggle.md",
+    "대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md",
+    "Untitled.md",
+    "toggle.md",
+    "templates",
     "2025-09-25-first_post.md",
-    "대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md.bak",
-    "대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md"
+    "대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md.bak"
   ]
 }
