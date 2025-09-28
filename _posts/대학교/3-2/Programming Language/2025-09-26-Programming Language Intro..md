@@ -23,6 +23,7 @@ pin: false
 
  - PL은 알고리즘을 표현하고. 기계를 조종 및 instruction을 주기 위한 형식적인 구조의 언어 
  - 구성 요소는 syntax (form, grammar)와 semantics (meaning, what each sentence means)로 이루어져 있다. 
+ 
 <br> 
 
 <details>
@@ -37,6 +38,7 @@ pin: false
 
 - 인간 및 컴퓨터에게 형식적이면서 정확한 의사소통을 위해서 쓰는 언어. (+ 논리, 계산 )
 - 추상적인 기계를 표현하기 위해 쓰는 언어 
+
 <br>
 
 <details>
@@ -150,7 +152,6 @@ pin: false
 
 <br>
 
-
 <details>
   <summary><h5> Readability : Orthogonality </h5></summary>
   <ul>
@@ -174,8 +175,8 @@ reference).
 - Nonorthogonalities 예시
 	- C/C++에서 배열 타입은 함수에서 return 할 수 없다. 
 	- C는 배열 외의 모든 파라미터는 값에 의한 호출로 전달한다.
-<br>
 
+<br>
 
 <details>
   <summary><h5> Data Types and Structures </h5></summary>
@@ -200,6 +201,7 @@ reference).
 - 다양한 데이터 타입과 프로그래머의 능력으로 프로그램의 readability를 향상 시킬 수 있다. 
 	- ex) Boolean : True vs False 
 - 레코드(struct)를 활용하여 복잡한 데이터들을 객체로 정리하면 readability가 높아진다. 
+
 <br>
 
 <details>
@@ -219,7 +221,6 @@ reference).
 	- static variable를 local과 global로 나눈것
 
 <br>
-
 
 <details>
   <summary><h5> Evaluation Criteria: Writability </h5></summary>
@@ -244,7 +245,6 @@ reference).
 
 <br>
 
-
 <details>
   <summary><h5> Evaluation Criteria : Reliability </h5></summary>
   <ul>
@@ -257,7 +257,6 @@ reference).
 - Reliability에 관련된 요소로 type checking, exception handling( catch run time error), aliasing ( 두 변수와 한 메모리 공간 공유)  
 
 <br>
-
 
 <details>
   <summary><h5> Evaluation Criteria : Cost </h5></summary>
