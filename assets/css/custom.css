@@ -83,5 +83,6 @@ details ol {
   padding-left: 0.5rem;
 }
 
+.obsidian-only { display: none; }
 
 

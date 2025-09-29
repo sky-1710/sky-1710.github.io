@@ -1,0 +1,5 @@
+/* 읽기/미리보기/라이브프리뷰 모두에서 site-only 숨기기 */
+.site-only { display: none !important; }
+.markdown-reading-view .site-only,
+.markdown-preview-view .site-only,
+.markdown-source-view.mod-cm6 .site-only { display: none !important; }

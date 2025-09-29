@@ -1,56 +1,41 @@
 {
   "main": {
-    "id": "94a90d1626005fa2",
+    "id": "4bf3acc51afb2483",
     "type": "split",
     "children": [
       {
-        "id": "bf45ef4e6ecedf95",
+        "id": "e055ec2b6f658474",
         "type": "tabs",
         "children": [
           {
-            "id": "508d159e56ec9374",
+            "id": "2ef94d6478a35d09",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2025-09-26-Programming Language Intro."
-            }
-          },
-          {
-            "id": "e99e8c109b6ff5bd",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "대학교/3-2/Introduction to Database/2025-09-29-Introduction to Database.md",
-                "mode": "source",
+                "file": "_posts/대학교/3-2/Introduction to Database/2025-09-29-Introduction to Database.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
               "title": "2025-09-29-Introduction to Database"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "b88357ad6e505c30",
+    "id": "3365dcdc8c014f39",
     "type": "split",
     "children": [
       {
-        "id": "cf4d304ae47523ba",
+        "id": "0801fe7fee7c3498",
         "type": "tabs",
         "children": [
           {
-            "id": "eb58540bc945b924",
+            "id": "f6e631b84c308754",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -63,7 +48,7 @@
             }
           },
           {
-            "id": "4278ab14eb35ac2b",
+            "id": "e11b74e03cbd47a2",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -80,7 +65,7 @@
             }
           },
           {
-            "id": "412e9787379be8cd",
+            "id": "3718823d61fff358",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -96,19 +81,20 @@
     "width": 300
   },
   "right": {
-    "id": "a0374b31e26572de",
+    "id": "bd33d98d8d9259bb",
     "type": "split",
     "children": [
       {
-        "id": "da80803d19b77b6f",
+        "id": "403e1d6474ba2df0",
         "type": "tabs",
         "children": [
           {
-            "id": "a02c3967d36d937e",
+            "id": "387a3c65ddbfc0fd",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
+                "file": "_posts/대학교/3-2/Introduction to Database/2025-09-29-Introduction to Database.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,24 +104,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for 2025-09-29-Introduction to Database"
             }
           },
           {
-            "id": "2287f9e07eef0f68",
+            "id": "08ea16ea9a0c9430",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "_posts/대학교/3-2/Introduction to Database/2025-09-29-Introduction to Database.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from 2025-09-29-Introduction to Database"
             }
           },
           {
-            "id": "be3219bf9a0793b9",
+            "id": "fe0d4b4af42174f1",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -150,17 +137,18 @@
             }
           },
           {
-            "id": "f8ee1d79d7b560c0",
+            "id": "db440374fcb3aa55",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
+                "file": "_posts/대학교/3-2/Introduction to Database/2025-09-29-Introduction to Database.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of 2025-09-29-Introduction to Database"
             }
           }
         ]
@@ -181,27 +169,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "e99e8c109b6ff5bd",
+  "active": "2ef94d6478a35d09",
   "lastOpenFiles": [
-    "templates/photo.md",
-    "templates/Untitled.md",
-    "assets/img/natural_join.png",
-    "대학교/3-2/Introduction to Database/2025-09-29-Introduction to Database.md",
-    "대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md",
-    "Untitled.md",
-    "assets/img",
-    "assets/대학교/3-2/Introduction to Database/Pasted image 20250929025233.png",
-    "assets/대학교/3-2/Introduction to Database",
-    "assets/대학교/3-2",
-    "assets/대학교",
-    "Untitled 1.md",
-    "assets",
-    "templates/toggle.md",
-    "대학교/3-2/Introduction to Database/Untitled 1.md",
-    "대학교/3-2/Introduction to Database",
-    "toggle.md",
-    "templates",
-    "2025-09-25-first_post.md",
-    "대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md.bak"
+    "assets/posts/img/Pasted image 20250929155728.png",
+    "_posts/2025-09-25-first_post.md",
+    "_posts/대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md",
+    "assets/posts/img/Pasted image 20250929154905.png",
+    "_posts/대학교/3-2/Introduction to Database/2025-09-29-Introduction to Database.md",
+    "assets/posts/img/Inner_Join_Natural.png",
+    "assets/posts/img/Natural_Join.png",
+    "assets/posts/img/natural_join.png",
+    "assets/posts/img/Pasted image 20250929042520.png",
+    "_posts/templates/photo.md"
   ]
 }
