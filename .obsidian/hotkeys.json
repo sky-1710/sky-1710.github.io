@@ -6,5 +6,23 @@
       ],
       "key": "X"
     }
+  ],
+  "editor:delete-paragraph": [],
+  "editor:save-file": [],
+  "obsidian-img-func:wiki-img-to-dualimg-here": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "D"
+    }
+  ],
+  "editor:toggle-source": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "Q"
+    }
   ]
 }

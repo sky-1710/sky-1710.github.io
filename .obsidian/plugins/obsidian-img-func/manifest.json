@@ -1,0 +1,10 @@
+{
+  "id": "obsidian-img-func",
+  "name": "IMG() & Wiki → dual <img>",
+  "version": "1.2.0",
+  "minAppVersion": "1.5.0",
+  "description": "Type img(filename[, width]) or paste ![[...]] and expand to paired <img> tags (Obsidian/Site) — works inside HTML.",
+  "author": "you",
+  "isDesktopOnly": true,
+  "main": "main.js"
+}

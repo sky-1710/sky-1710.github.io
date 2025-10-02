@@ -1,0 +1,5 @@
+/* obs-img 클래스 전용 스타일 */
+.obs-img {
+  display: block;
+  margin: 20px 0;  /* 위아래 20px 간격 */
+}

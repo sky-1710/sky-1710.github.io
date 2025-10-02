@@ -12,6 +12,26 @@ pin: false
 ---
 
 <details>
+  <summary><h5> 요약본  </h5></summary>
+  <ul>
+   <li> 항목 1</li>
+   <li> 항목 2</li>
+   <li> 항목 3</li>
+   <li> 항목 4</li>
+  </ul>
+</details>
+
+<br>
+
+
+---
+
+<br> 
+
+
+
+
+<details>
   <summary><h5>What is a PL?</h5></summary>
   <ul>
    <li> formal constructed language - communicate instructions to a machine</li>
@@ -23,9 +43,12 @@ pin: false
 
  - PL은 알고리즘을 표현하고. 기계를 조종 및 instruction을 주기 위한 형식적인 구조의 언어 
  - 구성 요소는 syntax (form, grammar)와 semantics (meaning, what each sentence means)로 이루어져 있다. 
- 
-<br> 
 
+<br>
+
+---
+
+<br> 
 <details>
 <summary><h5>PL을 정의 내리면 </h5></summary>
 <ul>
@@ -41,6 +64,9 @@ pin: false
 
 <br>
 
+---
+
+<br> 
 <details>
   <summary><h5> Why programming languages? </h5></summary>
   <ul>
@@ -63,6 +89,9 @@ pin: false
 
 <br>
 
+---
+
+<br> 
 <details>
   <summary><h5> Programming Language Properties </h5></summary>
   <ul>
@@ -88,6 +117,9 @@ pin: false
 
 <br>
 
+---
+
+<br> 
 <details>
   <summary><h5> Language Evaluation Criteria </h5></summary>
   <ul>
@@ -102,8 +134,12 @@ pin: false
 
 - Readability, Writability, Reliability, Cost, Portability, Generality 
 
+
 <br>
 
+---
+
+<br> 
 <details>
   <summary><h5> Evaluation Criteria: Readability </h5></summary>
   <ul>
@@ -137,6 +173,9 @@ pin: false
 
 <br>
 
+---
+
+<br> 
 <details>
   <summary><h5> Readability : simplicity </h5></summary>
   <ul>   
@@ -152,6 +191,9 @@ pin: false
 
 <br>
 
+---
+
+<br> 
 <details>
   <summary><h5> Readability : Orthogonality </h5></summary>
   <ul>
@@ -178,6 +220,9 @@ reference).
 
 <br>
 
+---
+
+<br> 
 <details>
   <summary><h5> Data Types and Structures </h5></summary>
   <ul>
@@ -204,6 +249,10 @@ reference).
 
 <br>
 
+---
+
+<br> 
+
 <details>
   <summary><h5> Syntax </h5></summary>
   <ul>
@@ -220,8 +269,12 @@ reference).
 	- Special words 
 	- static variable를 local과 global로 나눈것
 
+
 <br>
 
+---
+
+<br> 
 <details>
   <summary><h5> Evaluation Criteria: Writability </h5></summary>
   <ul>
@@ -240,10 +293,14 @@ reference).
 	- simplicity, orthogonality
 	- abstraction 지원
 	- expressivity : 다양한 방식으로 표현 가능성
-		- <p style="color: blue;"> trade off : less readable, more writable</p> 
+		- <p style="color: blue;"> trade off : less readable, more writable</p>
 	- 특정 도메인과 문제 : Matlab (수학 친화적) 
 
 <br>
+
+---
+
+<br> 
 
 <details>
   <summary><h5> Evaluation Criteria : Reliability </h5></summary>
@@ -256,8 +313,12 @@ reference).
 
 - Reliability에 관련된 요소로 type checking, exception handling( catch run time error), aliasing ( 두 변수와 한 메모리 공간 공유)  
 
+
 <br>
 
+---
+
+<br> 
 <details>
   <summary><h5> Evaluation Criteria : Cost </h5></summary>
   <ul>
@@ -274,8 +335,318 @@ reference).
   </ul>
 </details>
 
-Cost에 관련된 요소로 프로그래머의 트레이닝 시간, 
+Cost에 관련된 요소로 
+- 프로그래머의 트레이닝 시간
+- 소프트웨어 제작 시간
+- 컴파일하는데 드는 시간 + 컴퓨팅 자원 + 개발 효율성
+- 실행 시 드는 컴퓨팅 자원
+- 컴파일러의 제작 난이도, 최적화 구현 비용, 런타임 시스템 비용.
+- 프로그램에 대한 신뢰성: 오류와 예상치 못한 동작 등... 
+- 유지 보수하는데 드는 인적 자원, 에러 대응, 도구 지원
 
 <br>
 
+---
 
+<br> 
+<details>
+  <summary><h5> Evaluation Criteria : Others </h5></summary>
+  <ul>
+   <li> Portability</li>
+   <li> Generality</li>
+   <li> Well-definedness: The completeness and precision of the language's official definition</li>
+   <li> Good fit for hardware (e.g., cell) or environmnent (e.g., Web)</li>
+   <li> etc...</li>
+  </ul>
+</details>
+- portability
+- generality(일반성, 언어의 범용성 : Python, C... )
+- well-definedness (syntax + semantics가 얼마나 완전하고 정확하게 정의했는지 평가)
+- good fit for hardware/environment (말 그대로)
+
+<br>
+
+---
+
+<br> 
+
+<details>
+  <summary><h5 style = "color:blue;"> Recap : Language Evaluation Criteria </h5></summary>
+  <ul>
+    <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002064206.png" alt="Pasted image 20251002064206" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002064206.png' | relative_url | uri_escape }}" alt="Pasted image 20251002064206" width="400" style="margin-top:40px;">
+  </div>
+  
+  </ul>
+</details>
+
+
+<br>
+
+---
+
+<br> 
+<details>
+  <summary><h5 style = "color:blue;"> Language Design Trade-offs </h5></summary>
+  <ul>
+   <li> Reliability vs. Cost of execution</li>
+	   <ul>
+	   Example: Java demands all references to array elements be checked for proper indexing, which leads to increased execution costs
+	   </ul>
+   <li> Readability vs. Writability</li>
+	   <ul>
+	   Example: APL provides many powerful operators (and a large number of new symbols), allowing complex computations to be written in a compact program but at the cost of poor readability
+	   </ul>
+   <li> Writabiltiy (flexibility) vs. Reliability </li>
+	   <ul>
+	   Example: C++ pointers are powerful and very flexible but are unreliable
+	   </ul>
+  </ul>
+</details>
+
+- 언어가 reliable하려면 실행 중 더 많은 검사를 해야 됨.
+- 프로그램을 간단히 쓸 수 있으면, 읽기는 어려워짐. { ex) Python }
+- 프로그램을 유연하게 작성 가능하면 예기치 못한 동작 발생으로 인한 안전성이 떨어짐. 
+
+
+<br>
+
+---
+
+<br> 
+<details>
+  <summary><h5> Infulences on Language Design </h5></summary>
+  <ul>
+   <li> Computer Architecture </li>
+	   <ul>
+	   <li>
+	   Languages are developed around the prevalent computer architecture, known as the von Neumann architecture
+	   </li>
+	   </ul>
+   <li> Program Design Methodologies</li>
+	   <ul>
+	   <li> New software development methodologies (e.g., objectoriented software development) led to new programming paradigms and by extension, new programming languages</li>
+	   </ul>
+		<div style="text-align:center;">
+	  <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002071444.png" alt="Pasted image 20251002071444" width="400" style="margin-top:40px;">
+	  <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002071444.png' | relative_url | uri_escape }}" alt="Pasted image 20251002071444" width="400" style="margin-top:40px;">
+	</div>
+  </ul>
+</details>
+PL 디자인은 2가지에 영향을 받았는데,
+	1. 컴퓨터 구조인(von Neumannn)폰 노이만 구조로 초기 하드웨어 구조인데, 아직 뿌리 깊게 남아 (하드웨어도 마찬가지) 아직도 PL은 이에 맞춰서 디자인 (순차적 실행, 변수/할당, 제어 구조, 메모리 모델) 하고 있다.  
+	2. 새로운 프로그램 디자인 개발 방법론이 생기고 (e.g., 객체지향 PL) 이는 새로운 프로그래밍 패러다임으로 이끌고, 새로운 PL로 이어졌다.
+
+<br>
+
+---
+
+<br> 
+<details>
+  <summary><ul><h5> Language Design Influences</h5><h6> Computer Architecture</h6></ul></summary>
+  <ul>
+   <li> We use imperative languages, at least in part, because we use von Neumann machines</li>
+	   <ul>
+	   <li>John von Neuman is generally considered to be the inventor of the "stored program" machines, the class to which most of today's computers belong</li>
+	   <li> One CPU + one memory system that contains both program and data </li>
+	   </ul>
+   <li> Focus on moving data and program instructions between registers in CPU to memory locations</li>
+   <li> Fundamentally sequential</li>
+<div style="text-align:center;">
+  <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002074710.png" alt="Pasted image 20251002074710" width="400" style="margin-top:40px;">
+  <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002074710.png' | relative_url | uri_escape }}" alt="Pasted image 20251002074710" width="400" style="margin-top:40px;">
+</div>
+  </ul>
+</details>
+- 주로 쓰는 PL이 명령형 언어인 이유 중 하나는 폰 노이만(von Neumannn) 구조의 컴퓨터를 사용하기 때문. 
+- 폰 노이만의 구조는 저장 프로그램(stored-program) 컴퓨터 의 기본 구조로 하나의 CPU와 프로그램과 데이터를 함꼐 저장 하는 하나의 메모리 시스템이다.
+- CPU 레지스터와 메모리 사이에서 데이터와 명령어를 옮기는 것이 핵심 동작 방식이라서, 구조는 근본적으로 순차적이다.  
+<br>
+
+---
+
+<br> 
+<details>
+  <summary><h5> Language Design Influences: Programming methodologies </h5></summary>
+  <ul>
+    <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002074830.png" alt="Pasted image 20251002074830" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002074830.png' | relative_url | uri_escape }}" alt="Pasted image 20251002074830" width="400" style="margin-top:40px;">
+  </div>
+  </ul>
+</details>
+- 50-60초는  간단한 프로그램 
+- 60 후반은 사람의 효율성을 위해 readability, 제어구조, 유지보수 중요 
+- 70 후반은 데이터 추상화
+- 80 중반은 객체 지향 PL
+<br>
+
+---
+
+<br> 
+<details>
+  <summary><h5> Language Categories</h5></summary>
+  <ul>
+   <li> The big four PL paradigms:</li>
+	   <ul>
+	   <li> Imperative or procedural (e.g., Fortran, C)</li> 
+	   <li>Object-oriented (e.g. Smalltalk, Java) </li> 
+	   <li>Functional (e.g., Lisp, ML) </li>
+	   <li>Rule based (e.g. Prolog, Jess)</li>
+	   </ul>
+   <li> Others:</li>
+	   <ul>
+	   <li>Scripting (e.g., Python, Perl, PHP, Ruby)</li>
+	   <li>Constraint (e.g., Eclipse)</li> 
+	   <li>Concurrent (Occam)</li>  
+	   <li>…</li>
+	   </ul>
+	   	   <div style="text-align:center;">
+	     <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002082150.png" alt="Pasted image 20251002082150" width="400" style="margin-top:40px;">
+	     <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002082150.png' | relative_url | uri_escape }}" alt="Pasted image 20251002082150" width="400" style="margin-top:40px;">
+	   </div>
+  </ul>
+</details>
+
+- PL의 4가지 패러다임 
+	- 명령형 또는 절차적 (순차 실행 + 함수 단위로 모듈화)
+	- 객체 지향
+	- 함수형
+	- 규칙 기반 
+- 다른 것들...
+	- 스크립트 언어
+	- 제약 기반 언어 
+	- 병렬/동시성 언어
+	- 멀티 페러다임 언어
+	- 선언적 / 논리형 언어
+
+- PL의 기본 요소 
+	- syntax (구문) 
+	- semantics (의미론)
+	- binding (바인딩)
+	- scope (스코프, 유효 범위)
+	- parameter passing (매개변수 전달)
+	- control (제어 구조)
+	- types (타입 시스템)
+
+<br>
+
+---
+
+<br> 
+<details>
+  <summary><h5> Implementation methods </h5></summary>
+  <ul>
+  <li>Direct execution by hardware </li>
+	  <ul>
+	  <li>e.g., native machine language</li>
+	  </ul>
+<li>Compilation to another language </li>
+	<ul>
+	<li>e.g., C compiled to native machine language</li>
+	</ul>
+<li>Interpretation: direct execution by software  </li>
+	<ul>
+	<li>e.g., csh, Lisp (traditionally), Python, JavaScript </li>
+	</ul>
+<li>Hybrid: compilation then interpretation</li>
+	<ul>
+	<li>Compilation to another language (aka bytecode), then interpreted by a ‘virtual machine’, e.g., Java, Perl  </li>
+	</ul>
+<li>Just-in-time compilation</li>
+	<ul>
+	<li>Dynamically compile some bytecode to native code (e.g., V8 javascript engine)</li>
+	</ul> 
+</ul>
+</details>
+프로그래밍 언어 구현 방법
+ - 하드웨어 직접 실행 (e.g., assembly)
+ - 다른 언어로 컴파일 (C->assembly)
+ - 인터프리터 : 소프트웨어가 하드웨어 대신 실행 
+ - 하이브리드 : 컴파일 후 인터프리트 
+	 - 다른 OS에서도 사용 가능 
+	 - 가짜 CPU (VM)를 만들어서 실행하면 다른 플랫폼에서도 동작하게 만드는 것 
+ - Just-in-compile (즉시 컴파일) 
+	 - 자주 실행되는 부분은 런타임에 기계어로 변환해서 속도를 올림.
+		 - 처음은 인터프리터처럼 실행하다가 자주 실행되는 코드(핫스팟, hotspot)를 감지하면 런타임 도중 그 부분을 기계어로 변환해서 저장해둠.
+		 - 그 뒤부터는 변환된 기계어를 그대로 실행하니까 훨씬 빠름.
+
+<br>
+
+---
+
+<br> 
+<details>
+  <summary><h5> Implementation metod : Architecture </h5></summary>
+  <ul>
+    <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002092924.png" alt="Pasted image 20251002092924" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002092924.png' | relative_url | uri_escape }}" alt="Pasted image 20251002092924" width="400" style="margin-top:40px;">
+  </div>
+    <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002092842.png" alt="Pasted image 20251002092842" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002092842.png' | relative_url | uri_escape }}" alt="Pasted image 20251002092842" width="400" style="margin-top:40px;">
+  </div>
+    <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002092856.png" alt="Pasted image 20251002092856" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002092856.png' | relative_url | uri_escape }}" alt="Pasted image 20251002092856" width="400" style="margin-top:40px;">
+  </div>
+  </ul>
+</details>
+
+<br>
+
+---
+
+<br> 
+<details>
+  <summary><h5> Implementation Issues </h5></summary>
+  <ul>
+<div style="text-align:center;">
+  <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002093032.png" alt="Pasted image 20251002093032" width="400" style="margin-top:40px;">
+  <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002093032.png' | relative_url | uri_escape }}" alt="Pasted image 20251002093032" width="400" style="margin-top:40px;">
+</div>  
+</ul>
+</details>
+<li><font color = "blue"> Compile과 Interpret의 Trade-off </font></li>
+<ul>
+	<li> Complie의 경우 Interpret보다는 실행 속도가 빠르다.</li>
+		<ul> 
+		<li> 소스코드에서 기계어 다음 execute 코드라서 실행을 한번만 하니까 빠르다.</li>
+		</ul>
+	<li>Interpret의 경우 compiler/interpreter 구현 난이도, 번역 속도, 이식성, 디버깅 , 코드의 간결성 같은 경우들이 유리하다. </li>
+		 <ul> 
+		 <li> compiler/interpreter 구현 난이도 : 소스코드를 읽고 한 줄씩 해석해서 실행하기 때문에 쉬움.</li>
+		 <li> 번역 속도: 실행 전에 전체 번역 과정이 없고, 코드를 읽으면서 바로 실행해서, 즉시 결과 확인 가능</li>
+		 <li> 코드 이식성 : 중간 코드(또는 원래 소스 코드) + 인터프리터 프로그램만 있으면 됨</li>
+			 <ul>
+			 <li> 컴파일러의 경우, 특정 OS나 CPU에 맞는 기계어로 변환 과정을 거쳐야됨</li>
+			 </ul>
+		<li> 디버깅 용이성 : 실행을 한줄씩 진행하면서 바로바로 오류를 알려줌.</li>
+        <li> 코드 간결성: Interpreter은 소스 코드나 바이트 코드 그대로 보관해서 실행 파일이 작음.  
+			 <ul>
+			 <li> 컴파일러의 경우, 최적화된 기계어 생성에 의해 크기가 커짐.</li>
+			 </ul>
+        </ul>
+</ul>
+
+<br>
+
+---
+
+<br> 
+<details>
+  <summary><h5> Programming Environment </h5></summary>
+  <ul>
+    <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/Pasted image 20251002095329.png" alt="Pasted image 20251002095329" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/Pasted image 20251002095329.png' | relative_url | uri_escape }}" alt="Pasted image 20251002095329" width="400" style="margin-top:40px;">
+  </div>
+  </ul>
+</details>
+
+- 소프트웨어 개발에 필요한 도구 : 에디터, 디버거, 컴파일러, 협업 도구등이 포함
+- 현대는 IDE (Integrated Development Environments) : 보통 특정 언어에 맞춰져 있으며, 프로그래머가 생각하는 수준에서 지원을 제공.
+	- 범용 IDE : Eclipse,  
+	- 참고로 Anaconda는 배포용 프로그램 (Python 생태계 + 데이터 과학용 패키지 모음 + 환경 관리 도구 + 일부 IDE(Spyder/Jupyter))
