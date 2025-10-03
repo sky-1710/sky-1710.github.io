@@ -650,3 +650,5 @@ PL 디자인은 2가지에 영향을 받았는데,
 - 현대는 IDE (Integrated Development Environments) : 보통 특정 언어에 맞춰져 있으며, 프로그래머가 생각하는 수준에서 지원을 제공.
 	- 범용 IDE : Eclipse,  
 	- 참고로 Anaconda는 배포용 프로그램 (Python 생태계 + 데이터 과학용 패키지 모음 + 환경 관리 도구 + 일부 IDE(Spyder/Jupyter))
+
+

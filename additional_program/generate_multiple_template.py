@@ -22,9 +22,10 @@ def main():
     TEMPLATE = f'img({pdf_name}{{}}.jpg)'
 
     for i in range(start, end + 1):
+        num_str = str(i).zfill(2)  # 두 자리 숫자 포맷팅
         print("<details>")
         print(f"  <summary><h5> Title {i} </h5></summary>")
-        print(f"  {TEMPLATE.format(i)}")
+        print(f"  {TEMPLATE.format(num_str)}")
         print("</details>\n<br>\n \n --- \n \n<br>\n")
 
 if __name__ == "__main__":
