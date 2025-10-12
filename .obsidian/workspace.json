@@ -4,39 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "12882ffb9d0538b4",
+        "id": "8320ddf376fb74ac",
         "type": "tabs",
         "children": [
           {
-            "id": "19ebde2f3d003178",
+            "id": "964018ee138f50df",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_posts/대학교/3-2/Programming Language/2025-10-02 Programming Language.md",
+                "file": "_posts/대학교/3-2/Algorithms/2025-10-12-Algorithms.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-10-02 Programming Language"
-            }
-          },
-          {
-            "id": "d01426a427023aa8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "_posts/대학교/3-2/Programming Language/2025-10-02-Programming Language.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2025-10-02-Programming Language"
+              "title": "2025-10-12-Algorithms"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -93,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "bd33d98d8d9259bb",
@@ -185,38 +171,46 @@
       "bases:Create new base": false
     }
   },
-  "active": "d01426a427023aa8",
+  "active": "964018ee138f50df",
   "lastOpenFiles": [
-    "assets/posts/img/PL/Lecture02/Module2-TPL_01.jpg",
+    "_posts/대학교/3-2/HCI/2025-10-09-HCI.md",
+    "_posts/대학교/3-2/Algorithms/2025-10-12-Algorithms.md",
+    "_posts/대학교/3-2/HCI/2025-10-09-HCI 1.md",
+    "additional_program/source/Algo/Alg_02_Review_Data_Structures.pdf",
+    "_posts/대학교/3-2/HCI/2025-10-10-HCI.md",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_26.jpg",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_25.jpg",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_14.jpg",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_13.jpg",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_12.jpg",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_11.jpg",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_10.jpg",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_09.jpg",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_08.jpg",
+    "assets/posts/img/Algo/Lecture02/Alg_02_Review_Data_Structures_07.jpg",
+    "assets/posts/img/Algo/Lecture02/233",
+    "assets/posts/img/Algo/233",
+    "assets/posts/img/233",
+    "additional_program/source/Algo",
+    "assets/posts/img/Algo/Lecture02",
+    "assets/posts/img/Algo",
+    "_posts/대학교/3-2/Algorithms",
+    "additional_program/source/HCI/03-Human_Factors.pdf",
+    "assets/posts/img/HCI/Lecture03",
+    "README.md",
     "_posts/대학교/3-2/Programming Language/2025-10-02-Programming Language.md",
+    "_posts/대학교/3-2/Introduction to Database/2025-10-09-Introduction to Database.md",
+    "_posts/대학교/3-2/Introduction to Database/2025-09-28-Introduction to Database_template.md",
     "_posts/대학교/3-2/Introduction to Database/2025-09-29-Introduction to Database.md",
-    "_posts/대학교/3-2/Introduction to Database/2025-09-28-Introduction to Database.md",
-    "assets/posts/img/DB/Lecture05/DBLecture05-Ch4.Intermediate_SQL_01.jpg",
-    "assets/posts/img/DB/Lecture05/DBLecture05-Ch4.Intermediate_SQL_03.jpg",
-    "_posts/대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md",
-    "_posts/templates/2025-MM-DD-Lecture_Title.md",
-    "assets/posts/img/PL/Lecture02/Module2-TPL_34.jpg",
-    "assets/posts/img/PL/Lecture02/Module2-TPL_33.jpg",
-    "assets/posts/img/PL/Lecture02/Module2-TPL_32.jpg",
-    "assets/posts/img/PL/Lecture02/Module2-TPL_31.jpg",
-    "assets/posts/img/PL/Lecture02/Module2-TPL_30.jpg",
-    "assets/posts/img/PL/Lecture02/Module2-TPL_29.jpg",
-    "assets/posts/img/PL/Lecture02/Module2-TPL_28.jpg",
-    "assets/posts/img/PL/Lecture02/Module2-TPL_27.jpg",
-    "assets/posts/img/PL/Lecture02",
-    "assets/posts/img/PL",
-    "additional_program/source/Module2-TPL.pdf",
-    "additional_program/source/~Transferring.tmp",
-    "assets/~Transferring.tmp",
-    "_posts/templates/toggle.md",
-    "Untitled.canvas",
-    "2025-10-02.md",
-    "Untitled 1.base",
-    "Untitled.base",
     "Untitled.md",
-    "additional_program/generate_multiple_template.py",
-    "assets/post/img/DB/Lecture05",
-    "assets/post/img/DB",
+    "_posts/대학교/3-2/Introduction to Database/2025-10-05-Introduction to Database.md",
+    "_posts/대학교/3-2/Artifical Intelligence/2025-10-05-Introduction_to_AI.md",
+    "_posts/대학교/3-2/Programming Language/2025-09-26-Programming Language Intro..md",
+    "_posts/대학교/3-2/Artifical Intelligence/2025-10-04-Introduction_to_AI.md",
+    "Untitled.canvas",
+    "_posts/templates/2025-MM-DD-Lecture_Title.md",
+    "_posts/templates/toggle.md",
+    "2025-10-02.md",
     "_posts/templates/photo.md",
     "_posts/2025-09-25-first_post.md"
   ]
