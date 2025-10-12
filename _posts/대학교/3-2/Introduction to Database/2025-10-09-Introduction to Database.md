@@ -129,8 +129,16 @@ pin: false
 
 <details>
   <summary><h5> Title 8 </h5></summary>
-  img(DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_08.jpg)
+     <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_08.jpg" alt="DB/Lecture06/DBLecture06 Ch5.JDBC PLSQL 08" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_08.jpg' | relative_url | uri_escape }}" alt="DB/Lecture06/DBLecture06 Ch5.JDBC PLSQL 08" width="400" style="margin-top:40px;">
+  </div>
 </details>
+
+- executeUpdate로 application을 다 짜도 되는데, fixed가 되어서 사용자들이 던지는 동적인 쿼리를 만들지 못함. 
+- 위의 예시 쿼리에는 보안 문제가 있음.
+	- 다른 쿼리가 들어올 수 있어서... (SQL injection 문제)
+
 <br>
 
  ---
@@ -138,9 +146,16 @@ pin: false
 <br>
 
 <details>
-  <summary><h5> Title 9 </h5></summary>
-  img(DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_09.jpg)
+  <summary><h5> SQL Injection </h5></summary>
+     <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_09.jpg" alt="DB/Lecture06/DBLecture06 Ch5.JDBC PLSQL 09" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_09.jpg' | relative_url | uri_escape }}" alt="DB/Lecture06/DBLecture06 Ch5.JDBC PLSQL 09" width="400" style="margin-top:40px;">
+  </div>
 </details>
+
+- website의 textbox 부분에 쿼리를 넣으면, DBMS 내부를 어지럽힐 수 있어서(ex> DROP TABLE) 보안 문제가 발생됨.
+
+
 <br>
 
  ---
@@ -148,9 +163,26 @@ pin: false
 <br>
 
 <details>
-  <summary><h5> Title 10 </h5></summary>
-  img(DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_10.jpg)
+  <summary><h5> Prepared Statement </h5></summary>
+     <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_10.jpg" alt="DB/Lecture06/DBLecture06 Ch5.JDBC PLSQL 10" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_10.jpg' | relative_url | uri_escape }}" alt="DB/Lecture06/DBLecture06 Ch5.JDBC PLSQL 10" width="400" style="margin-top:40px;">
+  </div>
 </details>
+
+- SQL injection의 Solution : Prepared Statement 클래스 
+	- Prepared statment에 수행할 쿼리를 다 입력한 후, 아직 내가 모르는 값의 경우 ?로 대체.
+		- ? : 나중에 유저가 넣을 값으로 교체를 할 것이다. 
+	- 나중에 유저가 입력하면, application은 set method를 불러 와줌. (.setString, .setInt)
+	- 이후, void type(쿼리를 다 알려줬기 때문에)의 executeUpdate가 들어감. 
+	- ?로 세팅하면, executeUpdate();를 다시 해도, 같은 쿼리가 또 날라감.
+	- ?에 들어갈 값 하나 만이라도 바뀌면 set method를 다시 부르고 다시 executeUpdate();를 해줘야 됨. 
+	- 이게 어떻게 SQL injection을 방지해 주지?
+		- single quote가 있으면 전부 자동으로 escape 해줌.  
+		- 원래 입력이 string을 읽은 뒤에 single quote가 오면, 그 뒤에 오는 것들은 SQL statement의 keyword라고 인식했는데,
+		- single quote를 escape해주면, 입력받은 것들을 다 사용자의 string으로 인지하게 되면서 해결됨.   
+
+- Query의 Output 파싱은 executeQuery한 후, ResultSet 타입으로 get method 해주면 됨.
 <br>
 
  ---
@@ -158,9 +190,14 @@ pin: false
 <br>
 
 <details>
-  <summary><h5> Title 11 </h5></summary>
-  img(DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_11.jpg)
+  <summary><h5> Metadata Features </h5></summary>
+     <div style="text-align:center;">
+    <img class="obsidian-only" src="assets/posts/img/DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_11.jpg" alt="DB/Lecture06/DBLecture06 Ch5.JDBC PLSQL 11" width="400" style="margin-top:40px;">
+    <img class="site-only" src="{{ '/assets/posts/img/DB/Lecture06/DBLecture06-Ch5.JDBC_PLSQL_11.jpg' | relative_url | uri_escape }}" alt="DB/Lecture06/DBLecture06 Ch5.JDBC PLSQL 11" width="400" style="margin-top:40px;">
+  </div>
 </details>
+
+- 
 <br>
 
  ---
